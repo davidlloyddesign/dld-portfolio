@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Lloyd Design — Red & Black</title>
+<meta name="description" content="David Lloyd Design — information and report design for United Nations agencies, governments, universities and NGOs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#1a1818;
+    --card:#242020;
+    --ink:#F5F1E6;
+    --red:#ED1C24;
+    --red-deep:#B8151B;
+    --highlight:#F5F1E6;
+    --muted:rgba(245,241,230,0.62);
+    --line:rgba(245,241,230,0.18);
+    --shadow:0 20px 44px rgba(0,0,0,0.5);
+    --sidebar-w:264px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; overflow-x:clip;}
+  body{
+    margin:0;
+    overflow-x:clip;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Roboto", ui-sans-serif, system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--red); color:#fff; }
+  a{ color:inherit; }
+  img{ max-width:100%; }
+  .display{ font-family:"Roboto", sans-serif; font-weight:800; letter-spacing:-0.01em; margin:0; }
+  .wrap{ max-width:1240px; margin:0 auto; padding:0 28px; }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:"Roboto"; font-size:12px; letter-spacing:0.14em; font-weight:700;
+    color:var(--highlight);
+  }
+  .eyebrow::before{ content:''; width:20px; height:2px; background:var(--highlight); display:inline-block; }
+
+  [contenteditable="true"]{ outline:1.5px dashed currentColor; outline-offset:4px; border-radius:1px; }
+  [contenteditable="true"]:focus{ outline:2px solid var(--red); background:rgba(245,241,230,0.12); }
+
+  /* reveal */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .6s cubic-bezier(.22,.8,.24,1), transform .6s cubic-bezier(.22,.8,.24,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; transition:none !important; } }
+
+  /* nav */
+  .nav{ position:sticky; top:0; z-index:30; background:rgba(11,10,8,0.9); backdrop-filter:blur(10px); border-bottom:1px solid rgba(245,241,230,0.14); }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; height:74px; }
+  .wordmark{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--highlight); }
+  .wordmark img.logo-img{ height:32px; width:auto; display:block; }
+  .wordmark .full{ font-size:12px; letter-spacing:0.1em; font-weight:700; color:var(--highlight); opacity:0.9; }
+  .side-wordmark{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; text-decoration:none; color:var(--highlight); }
+  .side-wordmark img.logo-img{ height:48px; width:auto; display:block; filter:drop-shadow(0 1px 6px rgba(0,0,0,0.6)); }
+  .side-wordmark .full{ font-size:13px; font-weight:700; letter-spacing:0.02em; text-shadow:0 1px 6px rgba(0,0,0,0.6); }
+  .nav-links{ display:flex; align-items:center; gap:30px; }
+  .nav-links a{ font-size:13.5px; font-weight:600; text-decoration:none; color:var(--highlight); opacity:0.75; }
+  .nav-links a:hover{ opacity:1; color:var(--red); }
+  @media (max-width:640px){ .nav-links a.hide-sm{ display:none; } }
+  .btn-edit-tab{ font-family:"Roboto"; font-weight:700; font-size:12px; letter-spacing:0.04em; background:var(--highlight); color:#0B0A08; border:0; padding:9px 16px; cursor:pointer; border-radius:6px; }
+  .btn-edit-tab:hover{ background:#fff; }
+
+  /* persistent left-hand menu — no background colour at all, text floats directly on the page/image with a soft shadow for legibility */
+  .sidebar{ position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w); background:none; display:flex; flex-direction:column; padding:32px 26px; z-index:40; overflow-y:auto; }
+  .sidebar-bar{ display:flex; align-items:center; justify-content:space-between; }
+  .side-toggle{ display:none; background:none; border:0; color:var(--highlight); font-size:22px; line-height:1; cursor:pointer; padding:4px; filter:drop-shadow(0 1px 5px rgba(0,0,0,0.55)); }
+  .side-menu{ display:contents; }
+  .side-nav{ display:flex; flex-direction:column; gap:1px; margin-top:56px; }
+  .side-link{ font-family:"Roboto"; font-size:21px; font-weight:400; letter-spacing:-0.01em; color:rgba(245,241,230,0.68); text-decoration:none; padding:4.5px 0; transition:color .15s ease, filter .12s ease, opacity .12s ease; text-shadow:0 1px 6px rgba(0,0,0,0.6); }
+  .side-link:hover{ color:var(--highlight); }
+  .side-link.active{ color:var(--highlight); }
+  /* on rollover, the hovered item stays sharp while its siblings soften out of focus */
+  .side-nav:hover .side-link:not(:hover){ filter:blur(1.5px); opacity:0.55; }
+  @media (prefers-reduced-motion:reduce){
+    .side-nav:hover .side-link:not(:hover){ filter:none; opacity:0.68; }
+  }
+  .side-foot{ margin-top:auto; display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding-top:24px; border-top:1px solid rgba(245,241,230,0.3); }
+  .side-email{ font-size:12px; color:var(--highlight); text-decoration:none; word-break:break-all; text-shadow:0 1px 6px rgba(0,0,0,0.6); }
+  .side-email:hover{ opacity:0.75; }
+
+  .page-main{ margin-left:var(--sidebar-w); min-height:100vh; display:flex; flex-direction:column; }
+  .page-section{ padding-top:32px; flex:1 0 auto; }
+  /* lets any page-section's own background bleed full-width behind the transparent sidebar, same as .hero-page */
+  .page-section{ margin-left:calc(-1 * var(--sidebar-w)); width:calc(100% + var(--sidebar-w)); padding-left:var(--sidebar-w); box-sizing:border-box; }
+  .contact-page .colophon{ margin-top:0; }
+  .contact-page .colophon .wrap{ padding-top:32px; }
+  /* hero bleeds full-width behind the transparent sidebar; its own content stays inset by the sidebar width */
+  .hero-page{ min-height:92vh; margin-left:calc(-1 * var(--sidebar-w)); width:calc(100% + var(--sidebar-w)); padding-left:var(--sidebar-w); }
+
+  @media (max-width:900px){
+    .sidebar{ width:100%; height:auto; bottom:auto; padding:14px 22px; background:none; }
+    .side-wordmark{ flex-direction:row; align-items:center; gap:10px; }
+    .side-wordmark img.logo-img{ height:32px; }
+    .side-wordmark .full{ font-size:13px; }
+    .side-toggle{ display:block; }
+    .side-menu{ display:block; position:fixed; inset:0; top:64px; background:var(--paper); padding:20px 28px 28px; transform:translateY(-12px); opacity:0; pointer-events:none; transition:transform .25s ease, opacity .25s ease; overflow-y:auto; z-index:39; }
+    .side-menu.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .side-nav{ margin-top:8px; }
+    .side-link{ font-size:26px; }
+    .page-main{ margin-left:0; padding-top:64px; }
+    .hero-page{ margin-left:0; width:100%; padding-left:0; }
+    .page-section{ margin-left:0; width:100%; padding-left:0; }
+  }
+
+  /* hero — full-bleed, Tomato-inspired minimal landing */
+  .hero{ position:relative; overflow:hidden; }
+  .hero-tomato{ position:relative; min-height:92vh; display:flex; }
+  .hero-tomato-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; background:#000; }
+  .hero-tomato-bg img, .hero-tomato-bg video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; opacity:0.85; }
+  .hero-tomato-bg .ken-burns{ animation:kenBurns 32s ease-in-out infinite alternate; transform-origin:50% 50%; will-change:transform; }
+  @keyframes kenBurns{
+    0%{ transform:scale(1); }
+    100%{ transform:scale(1.035); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-tomato-bg .ken-burns{ animation:none !important; }
+  }
+  .hero-slideshow{ position:absolute; inset:0; width:100%; height:100%; }
+  .hero-slideshow .hero-slide{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; opacity:0; will-change:opacity, transform; animation-name:heroSlideFade; animation-timing-function:ease-in-out; animation-iteration-count:infinite; transform-origin:50% 50%; }
+  /* 5-slide crossfade: each slide occupies an equal 20% segment of the shared cycle, staggered via animation-delay */
+  @keyframes heroSlideFade{
+    0%{ opacity:0; transform:scale(1); }
+    3%{ opacity:0.85; }
+    17%{ opacity:0.85; transform:scale(1.045); }
+    20%{ opacity:0; transform:scale(1.045); }
+    100%{ opacity:0; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-slideshow .hero-slide{ animation:none !important; opacity:0; }
+    .hero-slideshow .hero-slide:first-child{ opacity:0.85; }
+  }
+  .hero-tomato-veil{ position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(11,10,8,0.72) 0%, rgba(11,10,8,0.18) 26%, rgba(11,10,8,0.12) 58%, rgba(11,10,8,0.88) 100%); }
+  @media (max-width:900px){
+    .hero-tomato-veil{ background:linear-gradient(180deg, rgba(11,10,8,0.94) 0%, rgba(11,10,8,0.8) 34%, rgba(11,10,8,0.2) 58%, rgba(11,10,8,0.92) 100%); }
+    .hero-tomato-h1, .hero-tomato .eyebrow, .hero-tomato-sub{ text-shadow:0 2px 10px rgba(0,0,0,0.7); }
+  }
+  .hero-tomato-content{ position:relative; z-index:2; width:100%; min-height:100%; padding:52px 0 48px; display:flex; flex-direction:column; justify-content:space-between; gap:32px; }
+  .hero-tomato-top{ max-width:620px; }
+  .hero-tomato .eyebrow{ color:var(--highlight); }
+  .hero-tomato-h1{ color:var(--highlight); font-size:clamp(25px,4.6vw,70px); line-height:1; font-weight:800; margin-top:18px; }
+  .hero-tomato-sub{ margin-top:20px; max-width:56ch; font-size:17.5px; line-height:1.6; color:rgba(245,241,230,0.8); }
+  .hero-tomato-bottom{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px 40px; border-top:1px solid rgba(245,241,230,0.22); padding-top:22px; }
+  .hero-tomato-bottom-left{ display:flex; flex-direction:column; gap:16px; max-width:560px; flex:1 1 360px; }
+  .hero-testimonial{ display:flex; flex-direction:column; gap:8px; }
+  .hero-testimonial-body{ display:flex; align-items:flex-start; gap:10px; }
+  .hero-testimonial-quote{ margin:0; font-size:14px; line-height:1.6; font-style:italic; color:rgba(245,241,230,0.82); }
+  .hero-testimonial-quote::before{ content:'“'; }
+  .hero-testimonial-quote::after{ content:'”'; }
+  .hero-testimonial-quote.testi-clamped{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .testi-expand-btn{ flex:0 0 auto; width:20px; height:20px; margin-top:2px; border-radius:50%; border:1px solid rgba(245,241,230,0.4); background:transparent; color:rgba(245,241,230,0.9); font-size:13px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s ease, transform .2s ease; }
+  .testi-expand-btn:hover{ background:rgba(245,241,230,0.15); }
+  .testi-expand-btn.is-expanded{ transform:rotate(135deg); }
+  .hero-testimonial-foot{ font-size:12px; }
+  .hero-testimonial-name{ font-weight:700; color:var(--highlight); }
+  .hero-testimonial-role{ color:rgba(245,241,230,0.6); margin-left:6px; }
+  .hero-testimonial-nav{ display:flex; align-items:center; gap:10px; }
+  .testi-arrow{ background:none; border:none; padding:2px 2px; color:rgba(245,241,230,0.75); font-size:14px; line-height:1; cursor:pointer; }
+  .testi-arrow:hover{ color:#fff; }
+  .hero-testimonial-dots{ display:flex; align-items:center; gap:6px; }
+  .testi-dot{ width:6px; height:6px; border-radius:50%; background:rgba(245,241,230,0.32); display:inline-block; }
+  .testi-dot.active{ background:var(--highlight); }
+  @media (max-width:620px){ .hero-tomato-bottom-left{ max-width:none; } }
+  .hero-tomato-meta{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+  .hero-categories{ display:flex; flex-wrap:wrap; margin-top:22px; }
+  .hero-cat{ font-family:"Roboto"; background:none; border:0; border-right:1px solid rgba(245,241,230,0.25); cursor:pointer; color:rgba(245,241,230,0.75); font-size:13.5px; font-weight:600; padding:0 18px 0 0; margin-right:18px; line-height:1; }
+  .hero-cat:last-child{ border-right:0; margin-right:0; padding-right:0; }
+  .hero-cat:hover{ color:var(--highlight); }
+  .hero-cta{ display:inline-flex; align-items:center; gap:8px; width:fit-content; border-bottom:2px solid var(--highlight); padding-bottom:6px; font-size:15px; font-weight:700; text-decoration:none; color:var(--highlight); }
+  .hero-cta:hover{ color:#fff; }
+  .hero-regions{ font-size:11px; letter-spacing:0.06em; font-weight:600; color:rgba(245,241,230,0.6); }
+  @media (max-width:700px){
+    /* below tablet width the photo can't give the headline enough clear space to sit over,
+       so the hero stacks: a solid-background text panel, then the photo as its own banner beneath */
+    .hero-tomato{ display:block; min-height:auto; }
+    .hero-tomato-bg{ position:relative; inset:auto; height:48vh; min-height:260px; max-height:420px; }
+    .hero-tomato-veil{ display:none; }
+    .hero-tomato-content{ position:static; min-height:0; width:auto; background:var(--paper); padding:36px 28px 34px; gap:28px; }
+    .hero-tomato-h1, .hero-tomato .eyebrow, .hero-tomato-sub{ text-shadow:none; }
+    .hero-tomato-bottom{ flex-direction:column; align-items:flex-start; }
+    .hero-categories{ flex-direction:column; gap:2px; width:100%; }
+    .hero-cat{ padding:8px 0; margin-right:0; border-right:0; border-bottom:1px solid rgba(245,241,230,0.16); width:100%; text-align:left; }
+    .hero-cat:last-child{ border-bottom:0; }
+  }
+
+  section{ padding:0; }
+  .section-head{ padding:88px 0 10px; }
+  .section-head h2{ font-size:clamp(28px,4vw,46px); margin-top:14px; }
+  /* routed pages already get their top clearance from .page-section — this legacy 88px is only
+     needed for the stacked sections of the single-scroll edit-mode page, so it's zeroed here */
+  .page-section .section-head{ padding-top:0; }
+
+  /* work — grid */
+  #work{ padding-bottom:20px; }
+  /* grey background + dark text, scoped to the routed Work page only (not the legacy edit-mode grid, which shares id="work") */
+  .page-section#work{
+    background:#929598;
+    padding-top:32px;
+    padding-bottom:clamp(80px, 14vh, 200px);
+    min-height:100vh;
+    --ink:#232323;
+    --highlight:#1a1818;
+    --muted:rgba(26,24,24,0.68);
+    --line:rgba(26,24,24,0.18);
+  }
+  .page-section#work .display,
+  .page-section#work h1,
+  .page-section#work h2,
+  .page-section#work h3{ color:var(--highlight); }
+  .page-section#work .filter-chip{ border-color:rgba(26,24,24,0.35); }
+  .page-section#work .filter-chip:hover{ border-color:var(--red); }
+  .page-section#work .filter-chip.active{ color:#F5F1E6; }
+  .page-section#work .tomato-row{ border-top-color:rgba(26,24,24,0.16); }
+  .page-section#work .tomato-thumb{ border-color:rgba(26,24,24,0.2); background:rgba(26,24,24,0.06); }
+  .work-filters{ display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+  .filter-chip{ font-family:"Roboto"; font-weight:600; font-size:13px; padding:9px 18px; border-radius:20px; border:1.5px solid rgba(245,241,230,0.4); background:transparent; color:var(--ink); cursor:pointer; }
+  .filter-chip:hover{ border-color:var(--highlight); color:var(--ink); }
+  .filter-chip.active{ background:var(--red); border-color:var(--red); color:var(--highlight); }
+
+  .work-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:44px 32px; margin-top:48px; }
+  @media (max-width:980px){ .work-grid{ grid-template-columns:repeat(2,1fr); gap:36px 24px; } }
+  @media (max-width:620px){ .work-grid{ grid-template-columns:1fr; } }
+  .work-card{ display:flex; flex-direction:column; }
+  .work-card[hidden]{ display:none; }
+  .work-card-link{ display:flex; flex-direction:column; color:inherit; text-decoration:none; }
+  .work-card-link:hover .work-card-title{ text-decoration:underline; }
+  .work-card-media{ aspect-ratio:4/5; border-radius:10px; overflow:hidden; background:var(--card); border:1px solid rgba(245,241,230,0.3); }
+  .work-card-media img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .45s ease; }
+  .work-card:hover .work-card-media img{ transform:scale(1.045); }
+  .img-placeholder{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:rgba(245,241,230,0.5); font-size:12px; letter-spacing:0.04em; }
+  .work-card-meta{ margin-top:18px; font-size:12px; letter-spacing:0.05em; font-weight:700; color:var(--highlight); display:block; }
+  .work-card-title{ font-size:23px; margin-top:6px; font-weight:800; line-height:1.08; }
+  .work-card-desc{ margin-top:10px; font-size:14.5px; line-height:1.58; color:var(--muted); }
+  .work-card-tags{ display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
+  .work-card-price{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:16px; padding-top:14px; border-top:1px dashed rgba(245,241,230,0.4); }
+  .price-tag{ font-weight:800; font-size:13.5px; color:var(--highlight); background:var(--red); padding:6px 13px; border-radius:20px; }
+
+  /* work — Tomato-style thumbnail rows (routed Work page only; legacy edit-mode grid above is untouched) */
+  .tomato-list{ margin-top:48px; display:flex; flex-direction:column; }
+  .tomato-row{ padding:34px 0; border-top:1px solid rgba(245,241,230,0.16); }
+  .tomato-row:first-child{ border-top:0; padding-top:0; }
+  .tomato-row[hidden]{ display:none; }
+  .tomato-row-head{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:6px 20px; }
+  .tomato-row-title-link{ text-decoration:none; color:inherit; }
+  .tomato-row-title-link:hover .tomato-row-title{ text-decoration:underline; }
+  .tomato-row-title{ font-family:"Roboto"; font-size:14px; font-weight:800; letter-spacing:0.02em; color:var(--ink); margin:0; }
+  .tomato-row-meta{ font-size:12px; color:var(--muted); letter-spacing:0.02em; }
+  .tomato-thumbs{ display:flex; gap:10px; margin-top:20px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:6px; scrollbar-width:none; -ms-overflow-style:none; cursor:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMTgiIGZpbGw9IiNFRDFDMjQiIHN0cm9rZT0iI0Y1RjFFNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0xMiAyMGgxNk0xMiAyMGw1LTVNMTIgMjBsNSA1TTI4IDIwbC01LTVNMjggMjBsLTUgNSIgc3Ryb2tlPSIjRjVGMUU2IiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==') 20 20, grab; user-select:none; }
+  .tomato-thumbs::-webkit-scrollbar{ display:none; }
+  .tomato-thumbs.dragging{ cursor:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMTgiIGZpbGw9IiNCODE1MUIiIHN0cm9rZT0iI0Y1RjFFNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0xMyAyMGgxNE0xMyAyMGw0LTRNMTMgMjBsNCA0TTI3IDIwbC00LTRNMjcgMjBsLTQgNCIgc3Ryb2tlPSIjRjVGMUU2IiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=') 20 20, grabbing; scroll-snap-type:none; }
+  .tomato-thumb{ flex:0 0 auto; display:block; height:114px; width:auto; border-radius:6px; overflow:hidden; background:var(--card); border:1px solid rgba(245,241,230,0.2); }
+  .tomato-thumb img{ height:100%; width:auto; max-width:none; display:block; object-fit:cover; transition:transform .4s ease, opacity .2s ease; }
+  .tomato-thumb:hover img{ transform:scale(1.03); opacity:0.9; }
+  .tomato-thumbs-wrap{ position:relative; }
+  .tomato-thumbs-wrap.has-arrows .tomato-thumbs{ scroll-behavior:smooth; }
+  .row-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(11,10,8,0.55); border:1px solid rgba(245,241,230,0.35); color:var(--highlight); font-size:16px; line-height:1; cursor:pointer; transition:background .2s ease, border-color .2s ease; z-index:5; }
+  .row-arrow:hover{ background:rgba(11,10,8,0.85); border-color:var(--highlight); }
+  .row-arrow-prev{ left:-8px; }
+  .row-arrow-next{ right:-8px; }
+  .page-section#work .row-arrow{ background:rgba(26,24,24,0.55); border-color:rgba(26,24,24,0.3); color:#F5F1E6; }
+  .page-section#work .row-arrow:hover{ background:rgba(26,24,24,0.85); }
+  @media (max-width:620px){ .row-arrow{ display:none; } }
+  .tomato-row-foot{ display:flex; align-items:center; gap:14px; margin-top:16px; }
+  @media (max-width:620px){ .tomato-thumb{ height:72px; } }
+
+  .project-detail{ padding-top:24px; padding-bottom:28px; }
+  .detail-top{ padding-bottom:0; }
+  .back-link{ background:none; border:none; padding:0; font-family:"Roboto"; font-size:12px; font-weight:700; letter-spacing:0.04em; color:var(--muted); cursor:pointer; }
+  .back-link:hover{ color:var(--highlight); }
+  .detail-head{ margin-top:14px; max-width:60ch; display:flex; align-items:baseline; flex-wrap:wrap; gap:0 12px; }
+  .detail-title{ font-family:"Roboto"; font-size:14px; letter-spacing:0.02em; font-weight:800; line-height:1.4; color:var(--highlight); opacity:0.92; margin:0; }
+  .detail-meta{ display:inline-block; margin:0; font-size:12px; letter-spacing:0.03em; font-weight:500; color:var(--muted); }
+  .detail-media{ position:relative; width:100%; margin-top:14px; }
+  .detail-gallery{ display:flex; width:100%; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .detail-gallery::-webkit-scrollbar{ display:none; }
+  .detail-slide{ flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; min-width:0; }
+  .detail-slide img{ width:auto; height:auto; max-width:100%; max-height:clamp(280px, calc(100dvh - 360px), 62vh); object-fit:contain; display:block; }
+  .gallery-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(11,10,8,0.55); border:1px solid rgba(245,241,230,0.35); color:var(--highlight); font-size:17px; line-height:1; cursor:pointer; transition:background .2s ease, border-color .2s ease; }
+  .gallery-arrow:hover{ background:rgba(11,10,8,0.85); border-color:var(--highlight); }
+  .gallery-arrow-prev{ left:16px; }
+  .gallery-arrow-next{ right:16px; }
+  .gallery-counter{ position:absolute; bottom:14px; right:16px; font-family:"Roboto"; font-size:11px; letter-spacing:0.08em; font-weight:700; color:var(--highlight); background:rgba(11,10,8,0.55); padding:5px 11px; border-radius:20px; }
+  @media (max-width:700px){ .gallery-arrow{ display:none; } }
+  .detail-body{ margin-top:22px; max-width:68ch; }
+  .detail-desc{ font-size:16.5px; line-height:1.68; color:var(--muted); }
+  .detail-body .work-card-tags{ margin-top:18px; }
+  .detail-price{ max-width:340px; }
+  @media (max-width:620px){ .project-detail{ padding-top:24px; } .detail-media{ margin-top:12px; } .detail-body{ margin-top:20px; } .detail-slide img{ max-height:clamp(220px, calc(100dvh - 420px), 52vh); } }
+  .detail-catnav{ margin-top:22px; padding-top:18px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .detail-cat-position{ font-family:"Roboto"; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); opacity:0.75; flex:0 0 auto; white-space:nowrap; }
+  .detail-next-btn{ display:inline-flex; align-items:center; gap:9px; background:var(--red); color:#F5F1E6; text-decoration:none; font-family:"Roboto"; font-size:13.5px; font-weight:700; letter-spacing:0.02em; padding:12px 20px; border-radius:30px; transition:background .2s ease, transform .2s ease; }
+  .detail-next-btn:hover{ background:var(--red-deep); transform:translateX(2px); }
+  .detail-next-btn-glyph{ font-size:15px; line-height:1; }
+  @media (max-width:620px){ .detail-catnav{ flex-wrap:wrap; justify-content:center; } .detail-cat-position{ order:2; width:100%; text-align:center; margin-top:10px; } }
+  .buy-link{ font-family:"Roboto"; background:none; border:0; padding:0 0 2px; font-size:12.5px; font-weight:700; color:var(--ink); text-decoration:none; border-bottom:1.5px solid var(--ink); cursor:pointer; }
+  .buy-link:hover{ opacity:0.6; }
+  .buy-link:disabled{ opacity:0.45; cursor:default; }
+  .work-tag{ font-size:10.5px; font-weight:600; letter-spacing:0.03em; border:1px solid rgba(245,241,230,0.35); border-radius:5px; padding:5px 10px; color:var(--muted); }
+
+  .edit-controls{ margin-top:16px; display:flex; flex-direction:column; gap:10px; }
+  .field-label{ font-size:10.5px; letter-spacing:0.06em; font-weight:700; opacity:0.6; margin-bottom:4px; display:block; }
+  .field-edit{ font-size:13px; border:1.5px dashed currentColor; border-radius:6px; padding:9px; }
+  .panel-remove{ align-self:flex-start; font-size:11px; font-weight:700; letter-spacing:0.04em; background:transparent; border:1.5px solid currentColor; border-radius:6px; color:inherit; padding:6px 13px; cursor:pointer; }
+  .add-panel-row{ grid-column:1/-1; padding:44px 0; text-align:center; border-top:1px dashed var(--line); margin-top:20px; }
+  .add-panel{ font-weight:700; font-size:13px; letter-spacing:0.04em; background:transparent; border:1.5px dashed var(--ink); border-radius:8px; color:var(--ink); padding:14px 26px; cursor:pointer; }
+  .add-panel:hover{ border-color:var(--red); color:var(--red); }
+
+  /* about */
+  .about-quote{ font-family:"Roboto"; font-weight:700; font-size:clamp(21.6px,3.06vw,34.2px); line-height:1.25; max-width:46ch; color:var(--ink); }
+  .about-layout{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:40px; align-items:start; margin-top:32px; }
+  @media (max-width:820px){ .about-layout{ grid-template-columns:1fr; gap:28px; } .about-layout .about-mark{ order:-1; } }
+  .about-body{ margin-top:40px; }
+  .about-body .bio{ font-size:16.5px; line-height:1.68; max-width:74ch; color:var(--muted); }
+  .achievements-head{ display:block; font-size:16.5px; font-weight:700; color:var(--ink); margin-top:24px; }
+  .achievements-text{ margin-top:10px; font-size:16.5px; line-height:1.68; color:var(--muted); max-width:70ch; }
+  .about-mark{ position:sticky; top:64px; max-width:200px; flex:0 0 auto; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; background:var(--highlight); border-radius:50%; padding:30px; box-shadow:var(--shadow); animation:markFloat 6s ease-in-out infinite alternate; }
+  @keyframes markFloat{ 0%{ transform:translateY(0); } 100%{ transform:translateY(-14px); } }
+  @media (prefers-reduced-motion:reduce){ .about-mark{ animation:none; } }
+  @media (max-width:820px){ .about-mark{ max-width:120px; top:78px; padding:18px; } }
+
+  /* testimonials — sits inside the About section */
+  .testimonials{ margin-top:40px; padding-top:28px; border-top:1px solid var(--line); }
+  .testimonials-head{ font-size:12px; font-weight:700; letter-spacing:0.02em; color:var(--muted); }
+  .testimonials-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:22px; margin-top:22px; }
+  .testimonial-row{ display:flex; flex-direction:column; gap:18px; padding:26px; border:1px solid rgba(245,241,230,0.18); border-radius:10px; background:var(--card); }
+  .testimonial-quote{ font-size:15.5px; line-height:1.62; color:var(--ink); }
+  .testimonial-quote::before{ content:'\201C'; }
+  .testimonial-quote::after{ content:'\201D'; }
+  .testimonial-foot{ margin-top:auto; }
+  .testimonial-name{ display:block; font-size:13.5px; font-weight:700; color:var(--highlight); }
+  .testimonial-role{ display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+  .testimonial-row .row-remove{ align-self:flex-start; }
+  .about-mark img{ width:100%; height:100%; object-fit:contain; transition:transform .35s ease; }
+  .about-mark:hover img{ transform:scale(1.06); }
+
+  /* branding / identity design */
+  #branding{ padding-bottom:12px; }
+  .branding-sub{ margin-top:18px; max-width:56ch; font-size:15px; line-height:1.6; color:var(--muted); }
+  .branding-grid{ margin-top:36px; display:grid; grid-template-columns:repeat(auto-fill, minmax(148px, 1fr)); gap:14px; }
+  .branding-tile{ position:relative; z-index:1; background:#ffffff; border-radius:8px; aspect-ratio:3/2; display:flex; align-items:center; justify-content:center; padding:18px; transform-origin:center center; transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, z-index 0s; }
+  .branding-tile img{ width:100%; height:100%; object-fit:contain; display:block; filter:grayscale(1); transition:filter .4s ease; }
+  @media (hover:hover) and (pointer:fine){
+    .branding-tile:hover{ transform:scale(2.25); box-shadow:0 30px 60px rgba(0,0,0,0.5); z-index:20; }
+    .branding-tile:hover img{ filter:grayscale(0); }
+  }
+  /* touch devices can't hover to reveal colour, so skip the grayscale state entirely there */
+  @media (hover:none), (pointer:coarse){
+    .branding-tile img{ filter:grayscale(0); }
+  }
+  @media (max-width:620px){ .branding-grid{ grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:10px; } .branding-tile{ padding:12px; } }
+
+  /* services */
+  .service-row{ display:grid; grid-template-columns:56px 1fr auto; gap:24px; align-items:start; padding:24px 4px; border-top:1px solid var(--line); transition:background .18s; }
+  #services .service-row:last-of-type{ border-bottom:1px solid var(--line); }
+  .service-row:hover{ background:rgba(245,241,230,0.06); }
+  @media (max-width:700px){ .service-row{ grid-template-columns:36px 1fr; } .row-remove{ grid-column:1/-1; justify-self:start; } }
+  .service-idx{ font-family:"Roboto"; font-weight:700; font-size:20px; color:var(--muted); padding-top:4px; }
+  .service-row h3{ font-size:21px; font-weight:800; margin:0; font-family:"Roboto"; letter-spacing:-0.005em; }
+  .service-row .desc-cell{ color:var(--muted); font-size:14.5px; line-height:1.58; margin-top:8px; max-width:56ch; }
+  .row-remove{ font-size:11px; font-weight:700; background:none; border:1.5px solid var(--ink); border-radius:6px; color:var(--ink); padding:5px 12px; cursor:pointer; height:fit-content; }
+  .row-remove:hover{ border-color:var(--red); color:var(--red); }
+  .add-row{ margin-top:22px; font-weight:700; font-size:13px; letter-spacing:0.04em; background:none; border:1.5px dashed var(--ink); border-radius:8px; color:var(--ink); padding:12px 22px; cursor:pointer; }
+  .add-row:hover{ border-color:var(--red); color:var(--red); }
+
+  /* colophon — inverted black finish (red is already the page field) */
+  .colophon{ background:var(--red); color:var(--highlight); margin-top:48px; }
+  .contact-page .colophon{ margin-left:calc(-1 * var(--sidebar-w)); width:calc(100% + var(--sidebar-w)); padding-left:var(--sidebar-w); box-sizing:border-box; }
+  @media (max-width:900px){ .contact-page .colophon{ margin-left:0; width:100%; padding-left:0; } }
+  .colophon .eyebrow{ color:var(--highlight); }
+  .colophon .eyebrow::before{ background:var(--highlight); }
+  .colophon .wrap{ padding-top:84px; padding-bottom:0; }
+  .colophon h2{ font-size:clamp(32px,6vw,64px); line-height:1.08; margin-top:20px; max-width:15ch; font-weight:800; color:var(--highlight); }
+  .colophon .email-link{ display:inline-block; margin-top:26px; font-family:"Roboto"; font-weight:700; font-size:clamp(20px,2.8vw,28px); text-decoration:none; color:var(--paper); border-bottom:2px solid var(--paper); }
+  .colo-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:56px; padding-top:28px; border-top:1px solid rgba(245,241,230,0.2); }
+  @media (max-width:700px){ .colo-grid{ grid-template-columns:1fr 1fr; } }
+  .colo-grid .k{ font-size:10.5px; letter-spacing:0.08em; font-weight:700; color:rgba(245,241,230,0.6); margin-bottom:8px; }
+  .colo-grid .v{ font-size:15px; color:var(--highlight); }
+  .colo-foot{ display:flex; justify-content:space-between; padding:26px 0 34px; font-size:11.5px; font-weight:600; letter-spacing:0.02em; color:rgba(245,241,230,0.6); flex-wrap:wrap; gap:8px; margin-top:26px; }
+
+  /* project enquiry form — mailto only, no backend */
+  .enquiry{ margin-top:8px; padding-top:36px; border-top:1px solid rgba(245,241,230,0.2); }
+  .enquiry-head h3{ font-size:clamp(20px,2.6vw,26px); font-weight:800; color:var(--highlight); margin:0; }
+  .enquiry-head p{ margin-top:10px; font-size:14.5px; line-height:1.55; color:rgba(245,241,230,0.82); max-width:56ch; }
+  .enquiry-form{ margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:18px 20px; max-width:720px; }
+  .enquiry-form .field{ display:flex; flex-direction:column; gap:7px; }
+  .enquiry-form .field.full{ grid-column:1 / -1; }
+  .enquiry-form label{ font-size:11px; font-weight:700; letter-spacing:0.02em; color:rgba(245,241,230,0.72); }
+  .enquiry-form input, .enquiry-form select, .enquiry-form textarea{ font-family:"Roboto"; font-size:15px; color:var(--paper); background:var(--highlight); border:1px solid rgba(11,10,8,0.15); border-radius:6px; padding:11px 13px; width:100%; }
+  .enquiry-form textarea{ resize:vertical; min-height:110px; }
+  .enquiry-form input:focus, .enquiry-form select:focus, .enquiry-form textarea:focus{ outline:2px solid var(--paper); outline-offset:1px; }
+  .enquiry-submit{ grid-column:1 / -1; justify-self:start; margin-top:4px; font-family:"Roboto"; font-weight:700; font-size:14px; background:var(--paper); color:var(--highlight); border:0; padding:13px 24px; border-radius:8px; cursor:pointer; }
+  .enquiry-submit:hover{ background:#000; }
+  @media (max-width:620px){ .enquiry-form{ grid-template-columns:1fr; } }
+
+  /* edit chrome */
+  .edit-bar{ position:sticky; bottom:0; z-index:40; background:#141210; color:#F4EFE3; border-top:2px solid var(--red); }
+  .edit-bar-inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 28px; flex-wrap:wrap; }
+  .edit-bar .msg{ font-size:12.5px; }
+  .edit-bar .actions{ display:flex; gap:10px; }
+  .btn{ font-family:"Roboto"; font-weight:700; font-size:12.5px; letter-spacing:0.02em; padding:11px 20px; cursor:pointer; border:1.5px solid transparent; border-radius:6px; }
+  .btn-ghost{ background:transparent; border-color:rgba(245,241,230,0.4); color:var(--highlight); }
+  .btn-ghost:hover{ border-color:var(--highlight); }
+  .btn-primary{ background:var(--highlight); color:#141210; border-color:var(--highlight); }
+  .btn-primary:hover{ background:#fff; border-color:#fff; }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; }
+
+  .toast{
+    position:fixed; left:50%; bottom:90px; transform:translate(-50%,8px); opacity:0; pointer-events:none;
+    background:#141210; color:#F4EFE3; font-size:12.5px;
+    padding:11px 18px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.25); border-left:4px solid var(--red);
+    transition:opacity .25s ease, transform .25s ease; z-index:50; max-width:86vw; text-align:center;
+  }
+  .toast.show{ opacity:1; transform:translate(-50%,0); pointer-events:auto; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+  'use strict';
+  var SELF_SRC = (document.currentScript && document.currentScript.textContent) || '';
+  var HEAD_HTML = document.head.innerHTML;
+
+  var VIDEOS = {
+    homepage_loop: 'video/homepage_loop.mp4',
+  };
+
+  var IMAGES = {
+  portrait_battersea: 'images/portrait_battersea.jpg',
+  wbh_cover: 'images/wbh_cover.jpg',
+  wbh_spread1: 'images/wbh_spread1.jpg',
+  wbh_spread2: 'images/wbh_spread2.jpg',
+  wbh_spread3: 'images/wbh_spread3.jpg',
+  wbh_spread4: 'images/wbh_spread4.jpg',
+    home_hero_video_poster: 'images/home_hero_video_poster.jpg',
+            wb_cover: 'images/wb_cover.jpg',
+    wb_spread1: 'images/wb_spread1.jpg',
+    wb_spread2: 'images/wb_spread2.jpg',
+    wb_spread3: 'images/wb_spread3.jpg',
+    wb_spread4: 'images/wb_spread4.jpg',
+    dc_cover: 'images/dc_cover.jpg',
+    dc_slide1: 'images/dc_slide1.jpg',
+    dc_slide2: 'images/dc_slide2.jpg',
+    dc_slide3: 'images/dc_slide3.jpg',
+    dc_slide4: 'images/dc_slide4.jpg',
+ss_cover: 'images/ss_cover.jpg',
+    ss_spread1: 'images/ss_spread1.jpg',
+    ss_spread2: 'images/ss_spread2.jpg',
+    ss_spread3: 'images/ss_spread3.jpg',
+    ss_spread4: 'images/ss_spread4.jpg',
+dld464_cover: 'images/dld464_cover.jpg',
+    dld464_spread1: 'images/dld464_spread1.jpg',
+    dld464_spread2: 'images/dld464_spread2.jpg',
+    dld464_spread3: 'images/dld464_spread3.jpg',
+    dld464_spread4: 'images/dld464_spread4.jpg',
+    rsf_keyresults: 'images/rsf_keyresults.jpg',
+    sir_cover: 'images/sir_cover.jpg',
+    sir_spread1: 'images/sir_spread1.jpg',
+    sir_spread2: 'images/sir_spread2.jpg',
+    sir_spread3: 'images/sir_spread3.jpg',
+    photo_doll: 'images/photo_doll.jpg',
+    photo_venice: 'images/photo_venice.jpg',
+    photo_coralgoby: 'images/photo_coralgoby.jpg',
+    battersea_relocation: 'images/battersea_relocation.jpg',
+    art_fireescape: 'images/art_fireescape.jpg',
+    art_bondighost: 'images/art_bondighost.jpg',
+    art_redglow: 'images/art_redglow.jpg',
+    art_petra: 'images/art_petra.jpg',
+    art_porthole: 'images/art_porthole.jpg',
+    art_spider: 'images/art_spider.jpg',
+    art_emiratesline: 'images/art_emiratesline.jpg',
+    art_bluecircles: 'images/art_bluecircles.jpg',
+        dtis_motif: 'images/dtis_motif.jpg',
+    women_motif: 'images/women_motif.jpg',
+            ntli_full: 'images/ntli_full.jpg',
+    home_hero: 'images/home_hero.jpg',
+    portrait_vignette: 'images/portrait_vignette.jpg',
+    circle_publishing: 'images/circle_publishing.png',
+    newscube: 'images/newscube.png',
+    ideas_from_asia: 'images/ideas_from_asia.png',
+    crank: 'images/crank.png',
+    clearriver: 'images/clearriver.png',
+    aera: 'images/aera.png',
+    bambu: 'images/bambu.png',
+    shinelabs: 'images/shinelabs.png',
+    briansgourmet: 'images/briansgourmet.png',
+    tokten: 'images/tokten.png',
+    starshiptoolbelt: 'images/starshiptoolbelt.png',
+    kbcomms: 'images/kbcomms.png',
+    usbikesales: 'images/usbikesales.png',
+    nikyhepi: 'images/nikyhepi.png',
+    buif: 'images/buif.png',
+    tuo: 'images/tuo.png',
+    fenley: 'images/fenley.png',
+    delion: 'images/delion.png',
+    littledragon: 'images/littledragon.png',
+    twentyninef: 'images/twentyninef.png',
+    healthfinancing: 'images/healthfinancing.png',
+    pfm4health: 'images/pfm4health.png',
+    expotv: 'images/expotv.png',
+    wvl: 'images/wvl.png',
+    rotalok: 'images/rotalok.png',
+    backboneproductions: 'images/backboneproductions.png',
+    sydneyideas: 'images/sydneyideas.png',
+    necc: 'images/necc.png',
+    conflictsmart: 'images/conflictsmart.png',
+    socialmastery: 'images/socialmastery.png',
+    maritimeacq: 'images/maritimeacq.png',
+    adila: 'images/adila.png',
+    deloittefindaway: 'images/deloittefindaway.png',
+    transitionaljustice: 'images/transitionaljustice.png',
+    jxdproject: 'images/jxdproject.png',
+    deloitteai: 'images/deloitteai.png',
+    sparrc: 'images/sparrc.png',
+    cumesh: 'images/cumesh.png',
+    cobeo: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iOTM1LjM5IiBoZWlnaHQ9IjI4MS45MjYiIHZpZXdCb3g9IjAgMCA5MzUuMzkgMjgxLjkyNiI+CjxkZWZzPgo8Zz4KPGcgaWQ9ImdseXBoLTAtMCI+CjxwYXRoIGQ9Ik0gMTE1LjYyNSAtMTIuNTYyNSBMIDEwMS43ODEyNSAtNDkuNDg0Mzc1IEMgODMuMDYyNSAtMzguNzAzMTI1IDQ5Ljk4NDM3NSAtNDEuMDE1NjI1IDQ5Ljk4NDM3NSAtNjQuMzQzNzUgQyA0OS45ODQzNzUgLTg3LjQyMTg3NSA4My41NzgxMjUgLTg5LjcxODc1IDEwMS41MTU2MjUgLTc5LjQ2ODc1IEwgMTE1LjM1OTM3NSAtMTE2LjM5MDYyNSBDIDEwMy44MjgxMjUgLTEyNS4xMDkzNzUgODcuOTM3NSAtMTI5LjQ2ODc1IDcwLjUgLTEyOS40Njg3NSBDIDM0LjM1OTM3NSAtMTI5LjQ2ODc1IDUuMTI1IC0xMDAuMjM0Mzc1IDUuMTI1IC02NC42MDkzNzUgQyA1LjEyNSAtMjguNDUzMTI1IDM0LjM1OTM3NSAwLjc2NTYyNSA3MC41IDAuNzY1NjI1IEMgODcuOTM3NSAwLjc2NTYyNSAxMDMuODI4MTI1IC0zLjU5Mzc1IDExNS42MjUgLTEyLjU2MjUgWiBNIDExNS42MjUgLTEyLjU2MjUgIi8+CjwvZz4KPGcgaWQ9ImdseXBoLTAtMSI+CjxwYXRoIGQ9Ik0gNzAuNSAwLjc2NTYyNSBDIDEwNi4xMjUgMC43NjU2MjUgMTM1LjM1OTM3NSAtMjguNDUzMTI1IDEzNS4zNTkzNzUgLTY0LjYwOTM3NSBDIDEzNS4zNTkzNzUgLTEwMC4yMzQzNzUgMTA2LjEyNSAtMTI5LjQ2ODc1IDcwLjUgLTEyOS40Njg3NSBDIDM0LjM1OTM3NSAtMTI5LjQ2ODc1IDUuMTI1IC0xMDAuMjM0Mzc1IDUuMTI1IC02NC42MDkzNzUgQyA1LjEyNSAtMjguNDUzMTI1IDM0LjM1OTM3NSAwLjc2NTYyNSA3MC41IDAuNzY1NjI1IFogTSA3MC4yNSAtNDQuMDkzNzUgQyA1OS4yMTg3NSAtNDQuMDkzNzUgNDkuOTg0Mzc1IC01My4zMjgxMjUgNDkuOTg0Mzc1IC02NC4zNDM3NSBDIDQ5Ljk4NDM3NSAtNzUuMzc1IDU5LjIxODc1IC04NC41OTM3NSA3MC4yNSAtODQuNTkzNzUgQyA4MS4yNjU2MjUgLTg0LjU5Mzc1IDkwLjUgLTc1LjM3NSA5MC41IC02NC4zNDM3NSBDIDkwLjUgLTUzLjMyODEyNSA4MS4yNjU2MjUgLTQ0LjA5Mzc1IDcwLjI1IC00NC4wOTM3NSBaIE0gNzAuMjUgLTQ0LjA5Mzc1ICIvPgo8L2c+CjxnIGlkPSJnbHlwaC0wLTIiPgo8cGF0aCBkPSJNIDY5Ljk4NDM3NSAwLjc2NTYyNSBDIDEwNi4xMjUgMC43NjU2MjUgMTM1LjM1OTM3NSAtMjguNDUzMTI1IDEzNS4zNTkzNzUgLTY0LjYwOTM3NSBDIDEzNS4zNTkzNzUgLTEwMC4yMzQzNzUgMTA2LjEyNSAtMTI5LjQ2ODc1IDY5Ljk4NDM3NSAtMTI5LjQ2ODc1IEMgNjMuNTc4MTI1IC0xMjkuNDY4NzUgNTcuMTcxODc1IC0xMjguNDM3NSA1MS4yNjU2MjUgLTEyNi42NDA2MjUgTCA1MS4yNjU2MjUgLTE5MC40Njg3NSBMIDUuMTI1IC0xOTAuNDY4NzUgTCA1LjEyNSAtNjQuNjA5Mzc1IEMgNS4xMjUgLTI4LjQ1MzEyNSAzNC4zNTkzNzUgMC43NjU2MjUgNjkuOTg0Mzc1IDAuNzY1NjI1IFogTSA3MC4yNSAtNDQuMDkzNzUgQyA1OS4yMTg3NSAtNDQuMDkzNzUgNDkuOTg0Mzc1IC01My4zMjgxMjUgNDkuOTg0Mzc1IC02NC4zNDM3NSBDIDQ5Ljk4NDM3NSAtNzUuMzc1IDU5LjIxODc1IC04NC41OTM3NSA3MC4yNSAtODQuNTkzNzUgQyA4MS4yNjU2MjUgLTg0LjU5Mzc1IDkwLjUgLTc1LjM3NSA5MC41IC02NC4zNDM3NSBDIDkwLjUgLTUzLjMyODEyNSA4MS4yNjU2MjUgLTQ0LjA5Mzc1IDcwLjI1IC00NC4wOTM3NSBaIE0gNzAuMjUgLTQ0LjA5Mzc1ICIvPgo8L2c+CjxnIGlkPSJnbHlwaC0wLTMiPgo8cGF0aCBkPSJNIDExNS42MjUgLTEyLjU2MjUgTCAxMDEuNzgxMjUgLTQ5LjQ4NDM3NSBDIDg1LjEwOTM3NSAtMzkuOTg0Mzc1IDU3LjQyMTg3NSAtNDAuNzY1NjI1IDUxLjI2NTYyNSAtNTcuMTcxODc1IEwgMTI4LjE3MTg3NSAtNTcuMTcxODc1IEMgMTM0Ljg0Mzc1IC05Ni4zOTA2MjUgMTA5LjIwMzEyNSAtMTI5LjQ2ODc1IDcwLjUgLTEyOS40Njg3NSBDIDM0LjM1OTM3NSAtMTI5LjQ2ODc1IDUuMTI1IC0xMDAuMjM0Mzc1IDUuMTI1IC02NC42MDkzNzUgQyA1LjEyNSAtMjguNDUzMTI1IDM0LjM1OTM3NSAwLjc2NTYyNSA3MC41IDAuNzY1NjI1IEMgODcuOTM3NSAwLjc2NTYyNSAxMDMuODI4MTI1IC0zLjU5Mzc1IDExNS42MjUgLTEyLjU2MjUgWiBNIDgyLjU0Njg3NSAtNzEuMjY1NjI1IEwgNTEuMjY1NjI1IC03MS4yNjU2MjUgQyA1Ni4xNDA2MjUgLTg2LjkwNjI1IDc4LjQ1MzEyNSAtODQuNTkzNzUgODIuNTQ2ODc1IC03MS4yNjU2MjUgWiBNIDgyLjU0Njg3NSAtNzEuMjY1NjI1ICIvPgo8L2c+CjxnIGlkPSJnbHlwaC0xLTAiPgo8cGF0aCBkPSJNIDE1LjM5MDYyNSAwLjczNDM3NSBDIDEzLjM2NzE4OCAwLjczNDM3NSAxMS40NzI2NTYgMC4zNDc2NTYgOS43MDMxMjUgLTAuNDIxODc1IEMgNy45NDE0MDYgLTEuMTkxNDA2IDYuMzk4NDM4IC0yLjIzNDM3NSA1LjA3ODEyNSAtMy41NDY4NzUgQyAzLjc2NTYyNSAtNC44NjcxODggMi43MjI2NTYgLTYuNDEwMTU2IDEuOTUzMTI1IC04LjE3MTg3NSBDIDEuMTkxNDA2IC05Ljk0MTQwNiAwLjgxMjUgLTExLjgzNTkzOCAwLjgxMjUgLTEzLjg1OTM3NSBDIDAuODEyNSAtMTUuODU5Mzc1IDEuMTkxNDA2IC0xNy43MzgyODEgMS45NTMxMjUgLTE5LjUgQyAyLjcyMjY1NiAtMjEuMjY5NTMxIDMuNzY1NjI1IC0yMi44MDQ2ODggNS4wNzgxMjUgLTI0LjEwOTM3NSBDIDYuMzk4NDM4IC0yNS40MTAxNTYgNy45NDE0MDYgLTI2LjQ0NTMxMiA5LjcwMzEyNSAtMjcuMjE4NzUgQyAxMS40NzI2NTYgLTI3Ljk4ODI4MSAxMy4zNjcxODggLTI4LjM3NSAxNS4zOTA2MjUgLTI4LjM3NSBDIDE3LjM5MDYyNSAtMjguMzc1IDE5LjI2OTUzMSAtMjcuOTg4MjgxIDIxLjAzMTI1IC0yNy4yMTg3NSBDIDIyLjgwMDc4MSAtMjYuNDQ1MzEyIDI0LjM0Mzc1IC0yNS40MTAxNTYgMjUuNjU2MjUgLTI0LjEwOTM3NSBDIDI2Ljk3NjU2MiAtMjIuODA0Njg4IDI4LjAxNTYyNSAtMjEuMjY5NTMxIDI4Ljc2NTYyNSAtMTkuNSBDIDI5LjUyMzQzOCAtMTcuNzM4MjgxIDI5LjkwNjI1IC0xNS44NTkzNzUgMjkuOTA2MjUgLTEzLjg1OTM3NSBDIDI5LjkwNjI1IC0xMS44MzU5MzggMjkuNTIzNDM4IC05Ljk0MTQwNiAyOC43NjU2MjUgLTguMTcxODc1IEMgMjguMDE1NjI1IC02LjQxMDE1NiAyNi45NzY1NjIgLTQuODY3MTg4IDI1LjY1NjI1IC0zLjU0Njg3NSBDIDI0LjM0Mzc1IC0yLjIzNDM3NSAyMi44MDA3ODEgLTEuMTkxNDA2IDIxLjAzMTI1IC0wLjQyMTg3NSBDIDE5LjI2OTUzMSAwLjM0NzY1NiAxNy4zOTA2MjUgMC43MzQzNzUgMTUuMzkwNjI1IDAuNzM0Mzc1IFogTSAxNS4zOTA2MjUgLTEuMTg3NSBDIDE3LjE2MDE1NiAtMS4xODc1IDE4Ljc4OTA2MiAtMS41MDc4MTIgMjAuMjgxMjUgLTIuMTU2MjUgQyAyMS43ODEyNSAtMi44MTI1IDIzLjA2NjQwNiAtMy43MDcwMzEgMjQuMTQwNjI1IC00Ljg0Mzc1IEMgMjUuMjIyNjU2IC01Ljk4ODI4MSAyNi4wNzAzMTIgLTcuMzI4MTI1IDI2LjY4NzUgLTguODU5Mzc1IEMgMjcuMzAwNzgxIC0xMC4zOTg0MzggMjcuNjA5Mzc1IC0xMi4wNjY0MDYgMjcuNjA5Mzc1IC0xMy44NTkzNzUgQyAyNy42MDkzNzUgLTE1LjYyODkwNiAyNy4zMDA3ODEgLTE3LjI4MTI1IDI2LjY4NzUgLTE4LjgxMjUgQyAyNi4wNzAzMTIgLTIwLjM0Mzc1IDI1LjIyMjY1NiAtMjEuNjcxODc1IDI0LjE0MDYyNSAtMjIuNzk2ODc1IEMgMjMuMDY2NDA2IC0yMy45Mjk2ODggMjEuNzgxMjUgLTI0LjgyMDMxMiAyMC4yODEyNSAtMjUuNDY4NzUgQyAxOC43ODkwNjIgLTI2LjEyNSAxNy4xNjAxNTYgLTI2LjQ1MzEyNSAxNS4zOTA2MjUgLTI2LjQ1MzEyNSBDIDEzLjYyODkwNiAtMjYuNDUzMTI1IDExLjk5MjE4OCAtMjYuMTI1IDEwLjQ4NDM3NSAtMjUuNDY4NzUgQyA4Ljk3MjY1NiAtMjQuODIwMzEyIDcuNjcxODc1IC0yMy45Mjk2ODggNi41NzgxMjUgLTIyLjc5Njg3NSBDIDUuNDkyMTg4IC0yMS42NzE4NzUgNC42NDQ1MzEgLTIwLjM0Mzc1IDQuMDMxMjUgLTE4LjgxMjUgQyAzLjQxNDA2MiAtMTcuMjgxMjUgMy4xMDkzNzUgLTE1LjYyODkwNiAzLjEwOTM3NSAtMTMuODU5Mzc1IEMgMy4xMDkzNzUgLTEyLjA2NjQwNiAzLjQxNDA2MiAtMTAuMzk4NDM4IDQuMDMxMjUgLTguODU5Mzc1IEMgNC42NDQ1MzEgLTcuMzI4MTI1IDUuNDkyMTg4IC01Ljk4ODI4MSA2LjU3ODEyNSAtNC44NDM3NSBDIDcuNjcxODc1IC0zLjcwNzAzMSA4Ljk3MjY1NiAtMi44MTI1IDEwLjQ4NDM3NSAtMi4xNTYyNSBDIDExLjk5MjE4OCAtMS41MDc4MTIgMTMuNjI4OTA2IC0xLjE4NzUgMTUuMzkwNjI1IC0xLjE4NzUgWiBNIDIyLjY1NjI1IC01LjcxODc1IEwgMjAuMjY1NjI1IC01LjcxODc1IEwgMTUuNjI1IC0xMy4yMDMxMjUgTCAxMS45ODQzNzUgLTEzLjIwMzEyNSBMIDExLjk4NDM3NSAtNS43MTg3NSBMIDkuOTg0Mzc1IC01LjcxODc1IEwgOS45ODQzNzUgLTIxLjk1MzEyNSBMIDE3LjA3ODEyNSAtMjEuOTUzMTI1IEMgMTkuMjM0Mzc1IC0yMS45NTMxMjUgMjAuNzM0Mzc1IC0yMS41NjY0MDYgMjEuNTc4MTI1IC0yMC43OTY4NzUgQyAyMi40MjE4NzUgLTIwLjAzNTE1NiAyMi44NDM3NSAtMTguOTg4MjgxIDIyLjg0Mzc1IC0xNy42NTYyNSBDIDIyLjg0Mzc1IC0xNi44NjMyODEgMjIuNzEwOTM4IC0xNi4xODc1IDIyLjQ1MzEyNSAtMTUuNjI1IEMgMjIuMjAzMTI1IC0xNS4wNjI1IDIxLjg0Mzc1IC0xNC42MDkzNzUgMjEuMzc1IC0xNC4yNjU2MjUgQyAyMC45MTQwNjIgLTEzLjkyMTg3NSAyMC4zNzUgLTEzLjY2NDA2MiAxOS43NSAtMTMuNSBDIDE5LjEyNSAtMTMuMzMyMDMxIDE4LjQ1MzEyNSAtMTMuMjM0Mzc1IDE3LjczNDM3NSAtMTMuMjAzMTI1IFogTSAxNS4wMTU2MjUgLTE0Ljc4MTI1IEMgMTUuNTc4MTI1IC0xNC43ODEyNSAxNi4xOTE0MDYgLTE0Ljc4MTI1IDE2Ljg1OTM3NSAtMTQuNzgxMjUgQyAxNy41MjM0MzggLTE0Ljc4MTI1IDE4LjE0NDUzMSAtMTQuODUxNTYyIDE4LjcxODc1IC0xNSBDIDE5LjI4OTA2MiAtMTUuMTU2MjUgMTkuNzU3ODEyIC0xNS40Mzc1IDIwLjEyNSAtMTUuODQzNzUgQyAyMC41IC0xNi4yNTc4MTIgMjAuNjg3NSAtMTYuODc4OTA2IDIwLjY4NzUgLTE3LjcwMzEyNSBDIDIwLjY4NzUgLTE4LjMzNTkzOCAyMC41NjY0MDYgLTE4LjgzNTkzOCAyMC4zMjgxMjUgLTE5LjIwMzEyNSBDIDIwLjA4NTkzOCAtMTkuNTc4MTI1IDE5Ljc3MzQzOCAtMTkuODU5Mzc1IDE5LjM5MDYyNSAtMjAuMDQ2ODc1IEMgMTkuMDAzOTA2IC0yMC4yNDIxODggMTguNTY2NDA2IC0yMC4zNzUgMTguMDc4MTI1IC0yMC40Mzc1IEMgMTcuNTk3NjU2IC0yMC41IDE3LjExMzI4MSAtMjAuNTMxMjUgMTYuNjI1IC0yMC41MzEyNSBMIDExLjk4NDM3NSAtMjAuNTMxMjUgTCAxMS45ODQzNzUgLTE0Ljc4MTI1IFogTSAxNS4wMTU2MjUgLTE0Ljc4MTI1ICIvPgo8L2c+CjwvZz4KPC9kZWZzPgo8cGF0aCBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9InJnYig3Ny4yNTUyNDklLCAxMy4zMzMxMyUsIDE4LjgyMzI0MiUpIiBmaWxsLW9wYWNpdHk9IjEiIGQ9Ik0gMTExLjg4NjcxOSAyMTIuNTMxMjUgQyA2My43MjI2NTYgMjEyLjUzMTI1IDAgMTgyLjE3MTg3NSAwIDEzMS40MzM1OTQgQyAwIDgwLjY5MTQwNiA2My43MjI2NTYgMjcuMzgyODEyIDExMS44ODY3MTkgMjcuMzgyODEyICIvPgo8cGF0aCBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9InJnYig0OS40MTEwMTElLCA1My43MjYxOTYlLCAzNi4wNzc4ODElKSIgZmlsbC1vcGFjaXR5PSIxIiBkPSJNIDEyNi4yMTg3NSAyNy4zODI4MTIgQyAxNTkuODUxNTYyIDI3LjQzMzU5NCAyMTguMzk4NDM4IDgxLjY2NDA2MiAyMTcuNTgyMDMxIDExMC40MTAxNTYgQyAyMTYuNzY5NTMxIDEzOS4xNTYyNSAxNzcuMTA5Mzc1IDE0MC45MDIzNDQgMTI2LjM4NjcxOSAxMzkuNDY0ODQ0ICIvPgo8cGF0aCBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9InJnYigxNS42ODYwMzUlLCAyNS44ODE5NTglLCA0MS45NjAxNDQlKSIgZmlsbC1vcGFjaXR5PSIxIiBkPSJNIDEyNi4yMTg3NSAyMTIuNTMxMjUgQyAxMjYuMjE4NzUgMTg3LjE2NDA2MiAxMzcuMjM0Mzc1IDE0OS40ODA0NjkgMTY5LjUyNzM0NCAxNDkuNDgwNDY5IEMgMjAxLjgyNDIxOSAxNDkuNDgwNDY5IDI0MS40NDE0MDYgMTg3LjE2NDA2MiAyNDEuNDQxNDA2IDIxMi41MzEyNSAiLz4KPGcgZmlsbD0icmdiKDE1LjY4NjAzNSUsIDI1Ljg4MTk1OCUsIDQxLjk2MDE0NCUpIiBmaWxsLW9wYWNpdHk9IjEiPgo8dXNlIHhsaW5rOmhyZWY9IiNnbHlwaC0wLTAiIHg9IjI2MS42MDI4IiB5PSIyMTcuOTYzNzg1Ii8+CjwvZz4KPGcgZmlsbD0icmdiKDE1LjY4NjAzNSUsIDI1Ljg4MTk1OCUsIDQxLjk2MDE0NCUpIiBmaWxsLW9wYWNpdHk9IjEiPgo8dXNlIHhsaW5rOmhyZWY9IiNnbHlwaC0wLTEiIHg9IjM3OS4xNzIzNDYiIHk9IjIxNy45NjM3ODUiLz4KPC9nPgo8ZyBmaWxsPSJyZ2IoMTUuNjg2MDM1JSwgMjUuODgxOTU4JSwgNDEuOTYwMTQ0JSkiIGZpbGwtb3BhY2l0eT0iMSI+Cjx1c2UgeGxpbms6aHJlZj0iI2dseXBoLTAtMiIgeD0iNTIxLjMyNzQxMiIgeT0iMjE3Ljk2Mzc4NSIvPgo8dXNlIHhsaW5rOmhyZWY9IiNnbHlwaC0wLTMiIHg9IjY2MC43OTA2MzMiIHk9IjIxNy45NjM3ODUiLz4KPHVzZSB4bGluazpocmVmPSIjZ2x5cGgtMC0xIiB4PSI3OTQuMTAxMDY1IiB5PSIyMTcuOTYzNzg1Ii8+CjwvZz4KPGcgZmlsbD0icmdiKDE1LjY4NjAzNSUsIDI1Ljg4MTk1OCUsIDQxLjk2MDE0NCUpIiBmaWxsLW9wYWNpdHk9IjEiPgo8dXNlIHhsaW5rOmhyZWY9IiNnbHlwaC0xLTAiIHg9Ijg5My4yODU2NTgiIHk9IjU2LjEyMDEyOSIvPgo8L2c+Cjwvc3ZnPgo=',
+    rawmotorcycles: 'images/rawmotorcycles.png',
+    can: 'images/can.png',
+    adha: 'images/adha.png',
+    twogirlsgoats: 'images/twogirlsgoats.png',
+    southlondonbiz: 'images/southlondonbiz.png',
+            dtis_sp1: 'images/dtis_sp1.jpg',
+    dtis_sp2: 'images/dtis_sp2.jpg',
+    dtis_sp3: 'images/dtis_sp3.jpg',
+                      };
+
+  var DEFAULT_STATE = {
+    brand: { name:'David Lloyd Design', short:'DLD', logoDataUrl:'data:image/png;base64,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' },
+    hero: {
+      headline: 'David Lloyd Design',
+      sub: 'Reports, data stories and campaign work for organisations that need to be trusted.',
+      regions: 'South Sudan · Australia · The Pacific'
+    },
+    heroVisual: { image:'portrait_battersea', video:null, videoPoster:'home_hero_video_poster', slideshow:['portrait_battersea','art_bluecircles','art_fireescape','art_redglow','art_spider'] },
+    about: {
+      quote: 'A decade shaping magazines in London, then two more making complex information look effortless and helping businesses large and small look their best.',
+      bio: 'David Lloyd spent close to a decade in art direction and design for magazines in London before opening David Lloyd Design (DLD) in Sydney in 2008. In the years since, his client list has grown to include United Nations agencies, the World Bank, Deloitte and Australian Government departments — including Defence, Health and the Australian Taxation Office — turning dense reports, data and policy into visually appealing material people actually want to read. That work has secured contracts in South Sudan, Kenya, Nigeria, Sierra Leone, Myanmar, Somalia and the Pacific. David now has over 30 years behind the screen — always guided by the same standards: be a team member first and get the product right in the most creative way possible.',
+      achievementsText: 'As well as running DLD, David held a UN Long-Term Agreement (LTA) contract for eight consecutive years (2009\u20132018) and a World Bank Short-Term Consultant (STC) agreement for seven years and counting (2019\u2013present). He has also spent nine years with Deloitte\u2019s Human Capital Division delivering more than $30 million in initiatives, picked up a World Bank team award for the COVID-19 vaccine response, was highly commended in 2005 and runner-up in 2006 for the Professional Publishers Association\u2019s Designer of the Year, and teaches Adobe Photoshop as a lecturer alongside his work as an underwater photographer.'
+    },
+    services: [
+      {title:'Report & publication design', desc:'End-to-end design for strategy reports, annual reports and studies — from cover concept to a press-ready, multi-chapter layout system.'},
+      {title:'Brand & identity', desc:'Logo systems and visual identity for programmes, institutes and initiatives that need to look credible from day one.'},
+      {title:'Data visualisation & infographics', desc:'Storytelling with bespoke infographics and charts stakeholders can engage with, quickly and effectively.'},
+      {title:'Advertising & event collateral', desc:'Banners, posters, signage and campaign artwork for conferences, launches and public events. Copywriting and editing.'},
+      {title:'Knowledge and training products', desc:'Material for training curricula and modules, workforce education and staff engagement. Bespoke designs or compliant with existing brand guidelines.'}
+    ],
+    testimonials: [
+      {quote:'David took a 40-page technical report that nobody was going to read cover to cover and turned it into something our board actually enjoyed opening. He has a rare talent for making dense material feel light.', name:'Sarah Kintu', role:'Communications Lead, UNDP South Sudan'},
+      {quote:'Fast, easy to brief, and the first drafts are usually better than what we asked for.', name:'Michael Ondiek', role:'Programme Officer, Global Financing Facility'},
+      {quote:'We came to David with a genuinely difficult brief — a sustainability strategy that needed to satisfy investors, regulators and our own staff all at once, in a format that wouldn’t date within a year. He pushed back on a few of our early ideas in exactly the right way, kept the whole project moving without ever feeling rushed, and the finished report has become the template every other document in the company is now measured against.', name:'Ella Novak', role:'Head of Sustainability, Descycle'},
+      {quote:'Responsive, professional, and genuinely good under deadline pressure.', name:'Grace Achieng', role:'Deputy Director, Ministry of Finance and Planning'},
+      {quote:'What stood out was how much David cared about the reader, not just the client. Every layout decision was about whether a busy policymaker would actually get the point in the first thirty seconds. That sounds obvious but almost nobody designing donor reports actually does it.', name:'Thomas Reid', role:'Senior Economist, World Bank'}
+    ],
+    projects: [
+      {id:'p_art1', title:'Battersea', meta:'Digital artwork \u2014 Sydney, 2010', desc:'Focal point of the \u201cre:location\u201d exhibition, Sydney 2010.', tags:['Artworks'], group:'Artworks', image:'battersea_relocation', pos:'center center'},
+      {id:'p_art2', title:'Fire escape', meta:'Digital artwork', desc:'A motion-blurred study of a fire escape and glass fa\u00e7ade colliding in blue and burnt orange.', tags:['Artworks'], group:'Artworks', image:'art_fireescape', pos:'center center'},
+      {id:'p_art3', title:'Bondi ghost', meta:'Digital artwork', desc:'A double-exposed view of Bondi Icebergs, with a ghosted figure drifting across the tide.', tags:['Artworks'], group:'Artworks', image:'art_bondighost', pos:'center center'},
+      {id:'p_art4', title:'Red glow', meta:'Digital artwork', desc:'Two soft trails of light suspended in a field of deep red \u2014 an exercise in colour and afterimage.', tags:['Artworks'], group:'Artworks', image:'art_redglow', pos:'center center'},
+      {id:'p_art5', title:'Petra overlaid', meta:'Digital artwork', desc:'The Treasury at Petra dissolves into layered colour and texture, part memory, part paint.', tags:['Artworks'], group:'Artworks', image:'art_petra', pos:'center center'},
+      {id:'p_art6', title:'Porthole', meta:'Digital artwork', desc:'Looking out through a ship\u2019s porthole at twin vents and a churning, sun-drenched sea.', tags:['Artworks'], group:'Artworks', image:'art_porthole', pos:'center center'},
+      {id:'p_art7', title:'Garden spider', meta:'Digital artwork', desc:'A garden orb spider picked out in colour against a stark, gridded backdrop.', tags:['Artworks'], group:'Artworks', image:'art_spider', pos:'center center'},
+      {id:'p_art8', title:'Emirates line', meta:'Digital artwork', desc:'A London bus and the Emirates Air Line cable car, colour bleeding through an otherwise monochrome street.', tags:['Artworks'], group:'Artworks', image:'art_emiratesline', pos:'center center'},
+      {id:'p_art9', title:'Blue circles', meta:'Digital artwork', desc:'A rhythmic pattern of circular vents and venetian-blind lines, rendered in cool blue.', tags:['Artworks'], group:'Artworks', image:'art_bluecircles', pos:'center center'},
+      {id:'p_sir', title:'Sydney Ideas Review', meta:'Personal project \u2014 magazine design', desc:'A concept magazine design exploring big typography, full-bleed illustration and a punchy, dynamic reviews section \u2014 built to show range across an entire editorial system.', tags:['Report design','Editorial','Layout system'], group:'Report design', image:'sir_cover', pos:'center center', images:['sir_cover','sir_spread1','sir_spread2','sir_spread3']},
+      {id:'p_rsf', title:'Regional Stabilization Facility \u2014 Key Results', meta:'Regional Stabilization Facility, Nigeria Window \u2014 January to July 2020', desc:'A single-page infographic distilling six months of stabilisation results \u2014 community security, infrastructure and livelihoods \u2014 into one clear, colour-coded read for donors and partners.', tags:['Data visualisation','Infographics'], group:'Data & infographics', image:'rsf_keyresults', pos:'center top'},
+      {id:'p_dld464', title:'Regional Stabilization Facility \u2014 Q1 Progress Report', meta:'UNDP, Regional Stabilization Facility Nigeria Window \u2014 2020', desc:'A 42-page quarterly progress report template combining data infographics, mapping, photo-led feature pages and a clear colour-coded section system for a UNDP donor audience.', tags:['Report design','Layout system','Data visualisation'], group:'Report design', image:'dld464_cover', pos:'center top', images:['dld464_cover','dld464_spread1','dld464_spread2','dld464_spread3','dld464_spread4']},
+      {id:'p_ssmc', title:'Impact Assessment of Mobile Courts Intervention', meta:'UNDP South Sudan, Access to Justice and Rule of Law Project \u2014 2021', desc:'A 96-page evaluation report design pairing full-bleed reportage photography with clear numbered infographics, section dividers and data mapping to bring a dense justice-sector assessment to life.', tags:['Report design','Editorial','Data visualisation'], group:'Report design', image:'ss_cover', pos:'center top', images:['ss_cover','ss_spread1','ss_spread2','ss_spread3','ss_spread4']},
+      {id:'p_pfm4h', title:'Driving Nutrition Action Through the Budget', meta:'World Bank, Global Financing Facility \u2014 2023', desc:'A guide to nutrition-responsive budgeting for the World Bank\u2019s PFM4Health programme, using a bold colour-coded step system, circular photo motifs and clear flowchart infographics to make public-finance process guidance approachable.', tags:['Report design','Editorial','Data visualisation'], group:'Report design', image:'wb_cover', pos:'center top', images:['wb_cover','wb_spread1','wb_spread2','wb_spread3','wb_spread4']},
+      {id:'p_wbh', title:'Budget Execution in Health: From Bottlenecks to Solutions', meta:'World Bank Group / World Health Organization — 2025', desc:'A joint WHO–World Bank report on health budget execution across low- and middle-income countries, pairing data-rich charts and diagnostic infographics with striking documentary photography to make a technical public-finance topic feel urgent and human.', tags:['Report design','Editorial','Data visualisation'], group:'Report design', image:'wbh_cover', pos:'center top', images:['wbh_cover','wbh_spread1','wbh_spread2','wbh_spread3','wbh_spread4']},
+      {id:'p_descycle', title:'Descycle Sustainability Strategy', meta:'Ithaca Impact / Descycle \u2014 2023', desc:'A sustainability strategy report for a critical-metals recycling startup, combining a bold gold e-waste hero image with a clean teal editorial system, stakeholder maps and material issues infographics.', tags:['Report design','Data visualisation','Brand design'], group:'Report design', image:'dc_cover', pos:'center top', images:['dc_cover','dc_slide1','dc_slide2','dc_slide3','dc_slide4']},
+      {id:'p2', title:'Diagnostic Trade Integration Study', meta:'UNDP / Republic of South Sudan — 2016', desc:'Cover and internal layout system for a national trade-policy diagnostic, including custom infographics that turn dense statistics into a clear visual argument.', tags:['Report design','Infographics','Data visualisation'], group:'Data & infographics', image:'dtis_motif', pos:'center 40%', images:['dtis_motif','dtis_sp1','dtis_sp2','dtis_sp3']},
+      {id:'p3', title:'Celebrating Ordinary Women — IWD Juba', meta:'UN Women / UNMISS / DANIDA — 2015', desc:'Banner and campaign artwork for an International Women’s Day event in Juba, pairing sponsor branding with a single strong image.', tags:['Campaign design','Event collateral'], group:'Campaign & events', image:'women_motif', pos:'center center'},
+      {id:'p6', title:'NTLI Curriculum — Transformational Leadership', meta:'National Transformational Leadership Institute / University of Juba — 2016', desc:'Module layout for a national leadership-training curriculum — a system that has to work, unsupervised, across dozens of modules and workshops.', tags:['Learning materials','Layout system'], group:'Learning materials', image:'ntli_full', pos:'left center'},
+      {id:'p7', title:'Reef blenny', meta:'Personal work — underwater macro', desc:'A blenny peers out from an empty shell, ringed by drifting particulate — one frame from an ongoing series of underwater macro studies.', tags:['Photography','Underwater','Macro'], group:'Photography', image:'home_hero', pos:'center 35%'},
+      {id:'p_photo1', title:'Doll', meta:'Personal work — street photography', desc:'A weathered doll photographed against a wrought-iron gate, caught in an unguarded moment of street photography.', tags:['Photography','Street'], group:'Photography', image:'photo_doll', pos:'center center'},
+      {id:'p_photo2', title:'Venice at night', meta:'Personal work — night photography', desc:'A quiet Venice canal glowing under lamplight, shot long after the crowds had gone.', tags:['Photography','Night'], group:'Photography', image:'photo_venice', pos:'center center'},
+      {id:'p_photo3', title:'Coral goby', meta:'Personal work — underwater macro', desc:'A tiny goby peers from its groove in brain coral, picked out against ribbons of gold and teal.', tags:['Photography','Underwater','Macro'], group:'Photography', image:'photo_coralgoby', pos:'center center'}
+    ],
+    contact: {
+      email:'dave@dld.net.au',
+      location:'Australia',
+      instagram:'@davidlloyddesign',
+      availability:'Currently booking new projects for late 2026.'
+    }
+  };
+
+  var BRANDING_LOGOS = [
+    {key:'circle_publishing', label:'Circle Publishing'},
+    {key:'newscube', label:'Newscube'},
+    {key:'ideas_from_asia', label:'Ideas From Asia'},
+    {key:'crank', label:'Crank Clothing Co.'},
+    {key:'clearriver', label:'ClearRiver'},
+    {key:'aera', label:'AERA'},
+    {key:'bambu', label:'Bambù Interiors'},
+    {key:'shinelabs', label:'ShineLabs'},
+    {key:'briansgourmet', label:"Brian's Gourmet Meats"},
+    {key:'tokten', label:'Tokten South Sudan'},
+    {key:'starshiptoolbelt', label:'Starship Toolbelt'},
+    {key:'kbcomms', label:'KB Communications'},
+    {key:'usbikesales', label:'US Bike Sales'},
+    {key:'nikyhepi', label:'Niky Hepi Ceramics'},
+    {key:'buif', label:'British Underwater Image Festival'},
+    {key:'tuo', label:'TUO'},
+    {key:'fenley', label:'Fenley Photography'},
+    {key:'delion', label:'Delion'},
+    {key:'littledragon', label:'Little Dragon Yoga'},
+    {key:'twentyninef', label:'29F'},
+    {key:'healthfinancing', label:'Health Financing Global Program'},
+    {key:'pfm4health', label:'PFM4 Health'},
+    {key:'expotv', label:'Expo TV'},
+    {key:'wvl', label:"Women's Voice & Leadership Myanmar"},
+    {key:'rotalok', label:'Rotalok'},
+    {key:'backboneproductions', label:'Backbone Productions'},
+    {key:'sydneyideas', label:'Sydney IDEAS Quarterly'},
+    {key:'necc', label:'NECC'},
+    {key:'conflictsmart', label:'Conflict Smart'},
+    {key:'socialmastery', label:'Social Mastery'},
+    {key:'maritimeacq', label:'Maritime Acquisition & Sustainment'},
+    {key:'adila', label:'Adila'},
+    {key:'deloittefindaway', label:'Deloitte / Find A Way'},
+    {key:'transitionaljustice', label:'Transitional Justice Working Group'},
+    {key:'jxdproject', label:'The JxD Project'},
+    {key:'deloitteai', label:'Deloitte AI Solutions'},
+    {key:'sparrc', label:'Sparrc'},
+    {key:'cumesh', label:'CuMesh'},
+    {key:'cobeo', label:'Cobeo'},
+    {key:'rawmotorcycles', label:'RAW Custom Motorcycles'},
+    {key:'can', label:'Christian Aid News'},
+    {key:'adha', label:'Australian Digital Health Agency'},
+    {key:'twogirlsgoats', label:"Two Girls & Their Goats"},
+    {key:'southlondonbiz', label:'South London Business'}
+  ];
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function ce(editing){ return editing ? ' contenteditable="true"' : ''; }
+  function genId(){ return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+  function logoMarkupSmall(state){
+    if(state.brand.logoDataUrl){
+      return '<img class="logo-img" src="'+esc(state.brand.logoDataUrl)+'" alt="'+esc(state.brand.name)+' logo">';
+    }
+    return '<span class="full">'+esc(state.brand.short)+'</span>';
+  }
+
+  function projectCardHTML(p, i, editing){
+    var src = p.image ? (IMAGES[p.image] || '') : '';
+    var mediaBlock = src
+      ? '<img src="'+esc(src)+'" alt="'+esc(p.title)+'" style="object-position:'+esc(p.pos||'center center')+';">'
+      : '<div class="img-placeholder">No image set for this project yet</div>';
+    var tagsText = (p.tags||[]).join(', ');
+    var forSale = p.group === 'Photography';
+    var priceBlock = (forSale && !editing)
+      ? (
+        '<div class="work-card-price">' +
+          '<span class="price-tag">$2 &middot; Digital</span>' +
+          '<button type="button" class="buy-link" data-action="buy-digital" data-id="'+esc(p.id)+'">Buy digital &rarr;</button>' +
+        '</div>'
+      )
+      : '';
+    var linkOpen = editing ? '' : '<a class="work-card-link" href="#project='+encodeURIComponent(p.id)+'" aria-label="View '+esc(p.title)+'">';
+    var linkClose = editing ? '' : '</a>';
+    return (
+      '<div class="work-card reveal" data-id="'+esc(p.id)+'" data-image="'+esc(p.image||'')+'" data-pos="'+esc(p.pos||'center center')+'" data-group="'+esc(p.group||'')+'">' +
+        linkOpen +
+        '<div class="work-card-media">'+mediaBlock+'</div>' +
+        '<span class="work-card-meta"'+ce(editing)+' data-role="meta">'+esc(p.meta)+'</span>' +
+        '<h3 class="work-card-title"'+ce(editing)+' data-role="title">'+esc(p.title)+'</h3>' +
+        linkClose +
+        '<p class="work-card-desc"'+ce(editing)+' data-role="desc">'+esc(p.desc)+'</p>' +
+        (editing ?
+          '<div class="edit-controls">' +
+            '<div><span class="field-label">Tags (comma separated)</span><div class="field-edit" contenteditable="true" data-role="tags">'+esc(tagsText)+'</div></div>' +
+            '<button type="button" class="panel-remove" data-action="remove-project">Remove project</button>' +
+          '</div>'
+        : '<div class="work-card-tags">' + (p.tags||[]).map(function(t){ return '<span class="work-tag">'+esc(t)+'</span>'; }).join('') + '</div>') +
+        priceBlock +
+      '</div>'
+    );
+  }
+
+  function filterChipsHTML(projects, activeFilter, trailing){
+    trailing = trailing || [];
+    var groups = [];
+    projects.forEach(function(p){ if(p.group && groups.indexOf(p.group) === -1 && trailing.indexOf(p.group) === -1) groups.push(p.group); });
+    groups = groups.concat(trailing);
+    var all = ['All'].concat(groups);
+    return '<div class="work-filters">' + all.map(function(g){
+      var active = (g === activeFilter) ? ' active' : '';
+      return '<button type="button" class="filter-chip'+active+'" data-action="filter" data-group="'+esc(g)+'">'+esc(g)+'</button>';
+    }).join('') + '</div>';
+  }
+
+  function heroCategoriesHTML(projects){
+    var groups = [];
+    projects.forEach(function(p){ if(p.group && groups.indexOf(p.group) === -1) groups.push(p.group); });
+    groups.push('Brand design');
+    return groups.map(function(g){
+      return '<button type="button" class="hero-cat" data-action="home-filter" data-group="'+esc(g)+'">'+esc(g)+'</button>';
+    }).join('');
+  }
+
+  function navHTML(s, editing){
+    var navEdit = (!editing && editModeAllowed) ? '<button type="button" class="btn-edit-tab" data-action="enter-edit">Edit</button>' : '';
+    return (
+      '<nav class="nav"><div class="wrap nav-row">' +
+        '<a class="wordmark" href="#top">' +
+          logoMarkupSmall(s) +
+          '<span class="full">'+esc(s.brand.name)+'</span>' +
+        '</a>' +
+        '<div class="nav-links">' +
+          '<a class="hide-sm" href="#work">Work</a><a class="hide-sm" href="#about">About</a><a class="hide-sm" href="#services">Services</a><a href="#contact">Contact</a>' +
+          navEdit +
+        '</div>' +
+      '</div></nav>'
+    );
+  }
+
+  function colophonHTML(s, editing){
+    return (
+      '<footer class="colophon" id="contact"><div class="wrap">' +
+        '<span class="eyebrow">Contact</span>' +
+        '<h2 class="display">Have a project in mind &mdash; let&rsquo;s talk.</h2>' +
+        '<a class="email-link" href="mailto:'+esc(s.contact.email)+'"'+ce(editing)+' data-role="email">'+esc(s.contact.email)+'</a>' +
+        '<div class="colo-grid">' +
+          '<div><div class="k">Location</div><div class="v"'+ce(editing)+' data-role="location">'+esc(s.contact.location)+'</div></div>' +
+          '<div><div class="k">Instagram</div><div class="v"'+ce(editing)+' data-role="instagram">'+esc(s.contact.instagram)+'</div></div>' +
+          '<div><div class="k">Availability</div><div class="v"'+ce(editing)+' data-role="availability">'+esc(s.contact.availability)+'</div></div>' +
+        '</div>' +
+        '<div class="enquiry">' +
+          '<div class="enquiry-head"><h3>Start a project enquiry</h3><p>Tell me a little about what you need — this opens a pre-filled email in your own mail app, ready to send.</p></div>' +
+          '<form class="enquiry-form" id="enquiry-form">' +
+            '<div class="field"><label for="enq-name">Name</label><input id="enq-name" name="name" type="text" autocomplete="name" required></div>' +
+            '<div class="field"><label for="enq-email">Email</label><input id="enq-email" name="email" type="email" autocomplete="email" required></div>' +
+            '<div class="field full"><label for="enq-type">Project type</label>' +
+              '<select id="enq-type" name="type">' +
+                '<option>Report design</option>' +
+                '<option>Data &amp; infographics</option>' +
+                '<option>Campaign &amp; events</option>' +
+                '<option>Learning materials</option>' +
+                '<option>Brand design</option>' +
+                '<option>Photography</option>' +
+                '<option>Other</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="field full"><label for="enq-message">Tell me about the project</label><textarea id="enq-message" name="message" rows="5" required></textarea></div>' +
+            '<button type="submit" class="enquiry-submit">Send enquiry &rarr;</button>' +
+          '</form>' +
+        '</div>' +
+        '<div class="colo-foot"><span>'+esc(s.brand.short)+' / 2026</span><span>Designed and edited on this page.</span></div>' +
+      '</div></footer>'
+    );
+  }
+
+  function brandingTilesHTML(){
+    return BRANDING_LOGOS.map(function(c){
+      var src = IMAGES[c.key] || '';
+      return (
+        '<div class="branding-tile" title="'+esc(c.label)+'">' +
+          (src ? '<img src="'+esc(src)+'" alt="'+esc(c.label)+'" loading="lazy">' : '') +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  function brandingHTML(){
+    return (
+      '<section id="branding"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">Brand design</span><h2 class="display">Identities designed from scratch</h2></div>' +
+        '<p class="branding-sub reveal">A selection of marks and visual identities designed over the years, alongside the report and information design work above.</p>' +
+        '<div class="branding-grid reveal">' + brandingTilesHTML() + '</div>' +
+      '</div></section>'
+    );
+  }
+
+  function categoryNavHTML(state, p){
+    var group = p.group || '';
+    if(group === 'Photography' || group === 'Artworks') return '';
+    var list = state.projects.filter(function(x){ return (x.group||'') === group; });
+    if(list.length < 2) return '';
+    var idx = 0;
+    for(var i=0;i<list.length;i++){ if(list[i].id === p.id){ idx = i; break; } }
+    var nextP = list[(idx + 1) % list.length];
+    return (
+      '<div class="detail-catnav reveal">' +
+        '<span class="detail-cat-position">'+esc(group)+' &middot; '+(idx+1)+' / '+list.length+'</span>' +
+        '<a class="detail-next-btn" href="#project='+encodeURIComponent(nextP.id)+'" aria-label="Next project in '+esc(group)+': '+esc(nextP.title)+'">' +
+          'Next project<span class="detail-next-btn-glyph">&rarr;</span>' +
+        '</a>' +
+      '</div>'
+    );
+  }
+
+  function projectDetailHTML(state, p){
+    var s = state;
+    var imgKeys = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
+    var validImgs = imgKeys.filter(function(k){ return IMAGES[k]; });
+    var hasMultiple = validImgs.length > 1;
+    var priceBlock = '';
+    var tagsHTML = (p.tags && p.tags.length)
+      ? '<div class="work-card-tags">' + p.tags.map(function(t){ return '<span class="work-tag">'+esc(t)+'</span>'; }).join('') + '</div>'
+      : '';
+
+    var slidesHTML = validImgs.length
+      ? validImgs.map(function(k){
+          return '<div class="detail-slide"><img src="'+esc(IMAGES[k])+'" alt="'+esc(p.title)+'"></div>';
+        }).join('')
+      : '<div class="detail-slide"><div class="img-placeholder">No image set for this project yet</div></div>';
+
+    var galleryControls = hasMultiple ? (
+      '<button type="button" class="gallery-arrow gallery-arrow-prev" data-action="gallery-prev" aria-label="Previous image">&larr;</button>' +
+      '<button type="button" class="gallery-arrow gallery-arrow-next" data-action="gallery-next" aria-label="Next image">&rarr;</button>' +
+      '<span class="gallery-counter" data-role="gallery-counter">01 / '+String(validImgs.length).padStart(2,'0')+'</span>'
+    ) : '';
+
+    return (
+      sidebarHTML('work') +
+      '<main class="page-main">' +
+        '<section class="project-detail">' +
+          '<div class="wrap detail-top">' +
+            '<button type="button" class="back-link" data-action="back-to-work">&larr; Back to work</button>' +
+            '<div class="detail-head reveal">' +
+              (p.group ? '<span class="eyebrow">'+esc(p.group)+'</span>' : '') +
+              '<h1 class="detail-title">'+esc(p.title)+'</h1>' +
+              '<span class="work-card-meta detail-meta">'+esc(p.meta)+'</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="detail-media reveal">' +
+            '<div class="detail-gallery">' + slidesHTML + '</div>' +
+            galleryControls +
+          '</div>' +
+          '<div class="wrap"><div class="detail-body reveal">' +
+            '<p class="detail-desc">'+esc(p.desc)+'</p>' +
+            tagsHTML +
+            priceBlock +
+          '</div></div>' +
+          '<div class="wrap">' + categoryNavHTML(s, p) + '</div>' +
+        '</section>' +
+      '</main>' +
+      '<div class="toast" id="toast"></div>'
+    );
+  }
+
+  function sidebarHTML(activeRoute){
+    var s = state;
+    var items = [
+      {key:'home', label:'Home'},
+      {key:'work', label:'Work'},
+      {key:'about', label:'About'},
+      {key:'services', label:'Services'},
+      {key:'contact', label:'Contact'}
+    ];
+    var linksHTML = items.map(function(it){
+      var active = (activeRoute === it.key) ? ' active' : '';
+      return '<a class="side-link'+active+'" href="#'+it.key+'" data-action="nav-link">'+esc(it.label)+'</a>';
+    }).join('');
+    var editBtn = (editModeAllowed) ? '<button type="button" class="btn-edit-tab side-edit" data-action="enter-edit">Edit site</button>' : '';
+    return (
+      '<aside class="sidebar">' +
+        '<div class="sidebar-bar">' +
+          '<a class="side-wordmark" href="#home" data-action="nav-link">' +
+            logoMarkupSmall(s) +
+            '<span class="full">'+esc(s.brand.name)+'</span>' +
+          '</a>' +
+          '<button type="button" class="side-toggle" data-action="toggle-menu" aria-label="Menu">&#9776;</button>' +
+        '</div>' +
+        '<div class="side-menu" id="side-menu">' +
+          '<nav class="side-nav">' + linksHTML + '</nav>' +
+          '<div class="side-foot">' +
+            editBtn +
+            '<a class="side-email" href="mailto:'+esc(s.contact.email)+'">'+esc(s.contact.email)+'</a>' +
+          '</div>' +
+        '</div>' +
+      '</aside>'
+    );
+  }
+
+  function heroBgHTML(s, kenBurns){
+    var slides = s.heroVisual.slideshow;
+    if(slides && slides.length){
+      var n = slides.length;
+      var out = '';
+      for(var i=0;i<n;i++){
+        var src = IMAGES[slides[i]] || '';
+        if(!src) continue;
+        var delay = -(i * (30/n));
+        out += '<img class="hero-slide" style="animation-duration:30s; animation-delay:'+delay+'s;" src="'+esc(src)+'" alt="">';
+      }
+      if(out) return '<div class="hero-slideshow" data-count="'+n+'">'+out+'</div>';
+    }
+    var v = s.heroVisual.video && VIDEOS[s.heroVisual.video];
+    if(v){
+      var poster = IMAGES[s.heroVisual.videoPoster] || IMAGES[s.heroVisual.image] || '';
+      return (
+        '<video class="hero-bg-video" autoplay muted loop playsinline'+(poster ? ' poster="'+esc(poster)+'"' : '')+'>' +
+          '<source src="'+esc(v)+'" type="video/mp4">' +
+        '</video>'
+      );
+    }
+    var heroSrc = IMAGES[s.heroVisual.image] || '';
+    return '<img class="'+(kenBurns ? 'ken-burns' : '')+'" src="'+esc(heroSrc)+'" alt="">';
+  }
+
+  function testimonialSliderHTML(s, idx){
+    var list = s.testimonials || [];
+    if(!list.length) return '';
+    var i = ((idx % list.length) + list.length) % list.length;
+    var t = list[i];
+    var dotsHTML = list.map(function(_, di){
+      return '<span class="testi-dot'+(di===i?' active':'')+'"></span>';
+    }).join('');
+    return (
+      '<div class="hero-testimonial" data-role="hero-testimonial" data-index="'+i+'">' +
+        '<div class="hero-testimonial-body">' +
+          '<p class="hero-testimonial-quote testi-clamped" data-role="hero-testi-quote">'+esc(t.quote)+'</p>' +
+          '<button type="button" class="testi-expand-btn" data-action="testi-expand" aria-expanded="false" aria-label="Read full testimonial">+</button>' +
+        '</div>' +
+        '<div class="hero-testimonial-foot">' +
+          '<span class="hero-testimonial-name">'+esc(t.name)+'</span>' +
+          '<span class="hero-testimonial-role">'+esc(t.role)+'</span>' +
+        '</div>' +
+        (list.length > 1 ? (
+          '<div class="hero-testimonial-nav">' +
+            '<button type="button" class="testi-arrow" data-action="testi-prev" aria-label="Previous testimonial">&larr;</button>' +
+            '<span class="hero-testimonial-dots">'+dotsHTML+'</span>' +
+            '<button type="button" class="testi-arrow" data-action="testi-next" aria-label="Next testimonial">&rarr;</button>' +
+          '</div>'
+        ) : '') +
+      '</div>'
+    );
+  }
+
+  function homePageHTML(s){
+    return (
+      '<header class="hero hero-tomato hero-page">' +
+        '<div class="hero-tomato-bg">' +
+          heroBgHTML(s, true) +
+        '</div>' +
+        '<div class="hero-tomato-veil"></div>' +
+        '<div class="hero-tomato-content wrap">' +
+          '<div class="hero-tomato-top">' +
+            '<span class="eyebrow">Graphic designer and consultant</span>' +
+            '<h1 class="display hero-tomato-h1">'+esc(s.hero.headline)+'</h1>' +
+          '</div>' +
+          '<div class="hero-tomato-bottom">' +
+            '<div class="hero-tomato-bottom-left">' +
+              '<p class="hero-tomato-sub">'+esc(s.hero.sub)+'</p>' +
+              testimonialSliderHTML(s, heroTestiIndex) +
+            '</div>' +
+            '<a class="hero-cta" href="#work">See the work &rarr;</a>' +
+          '</div>' +
+        '</div>' +
+      '</header>'
+    );
+  }
+
+  function projectThumbHTML(p){
+    var imgKey = p.image || (p.images && p.images.length ? p.images[0] : '');
+    var src = IMAGES[imgKey] || '';
+    if(!src) return '';
+    return (
+      '<a class="tomato-thumb" href="#project='+encodeURIComponent(p.id)+'" title="'+esc(p.title)+'" aria-label="View '+esc(p.title)+'">' +
+        '<img src="'+esc(src)+'" alt="'+esc(p.title)+'">' +
+      '</a>'
+    );
+  }
+
+  function categoryRowHTML(groupName, projects){
+    var thumbsHTML = projects.map(projectThumbHTML).join('');
+    var count = projects.length;
+    var scrollable = (groupName === 'Photography' || groupName === 'Artworks');
+    var arrowsHTML = scrollable ? (
+      '<button type="button" class="row-arrow row-arrow-prev" data-action="thumbs-prev" aria-label="Scroll '+esc(groupName)+' left">&larr;</button>' +
+      '<button type="button" class="row-arrow row-arrow-next" data-action="thumbs-next" aria-label="Scroll '+esc(groupName)+' right">&rarr;</button>'
+    ) : '';
+    return (
+      '<div class="tomato-row reveal" data-group="'+esc(groupName)+'">' +
+        '<div class="tomato-row-head">' +
+          '<h3 class="tomato-row-title">'+esc(groupName)+'</h3>' +
+          '<span class="tomato-row-meta">'+count+' '+(count===1?'piece':'pieces')+'</span>' +
+        '</div>' +
+        '<div class="tomato-thumbs-wrap'+(scrollable ? ' has-arrows' : '')+'">' +
+          '<div class="tomato-thumbs">'+thumbsHTML+'</div>' +
+          arrowsHTML +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function workPageHTML(s, activeFilter){
+    var filter = activeFilter || 'All';
+    var chipsHTML = filterChipsHTML(s.projects, filter, ['Brand design','Artworks']);
+    var sectionBodyHTML;
+    if(filter === 'Brand design'){
+      sectionBodyHTML = (
+        '<p class="branding-sub reveal">A selection of marks and visual identities designed over the years — hover to see each in colour.</p>' +
+        '<div class="branding-grid reveal">' + brandingTilesHTML() + '</div>'
+      );
+    } else {
+      var trailingGroups = ['Artworks'];
+      var groupsOrder = [];
+      var byGroup = {};
+      s.projects.forEach(function(p){
+        var g = p.group || 'Other';
+        if(!byGroup[g]){ byGroup[g] = []; groupsOrder.push(g); }
+        byGroup[g].push(p);
+      });
+      var orderedGroups = groupsOrder.filter(function(g){ return trailingGroups.indexOf(g) === -1; })
+        .concat(groupsOrder.filter(function(g){ return trailingGroups.indexOf(g) !== -1; }));
+      var rowsHTML = (filter === 'All')
+        ? orderedGroups.map(function(g){ return categoryRowHTML(g, byGroup[g]); }).join('')
+        : categoryRowHTML(filter, byGroup[filter] || []);
+      sectionBodyHTML = '<div class="tomato-list">' + rowsHTML + '</div>';
+    }
+    return (
+      '<section class="page-section" id="work"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">Selected work</span><h2 class="display">A few real projects</h2></div>' +
+        chipsHTML +
+        sectionBodyHTML +
+      '</div></section>'
+    );
+  }
+
+  function aboutPageHTML(s){
+    var achievementsHTML = s.about.achievementsText ? ('<span class="achievements-head">Achievements</span><p class="achievements-text reveal">'+esc(s.about.achievementsText)+'</p>') : '';
+    return (
+      '<section class="page-section" id="about"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">About</span></div>' +
+        '<div class="about-layout">' +
+          '<div class="about-content">' +
+            '<p class="about-quote reveal">'+esc(s.about.quote)+'</p>' +
+            '<div class="about-body">' +
+              '<div class="bio reveal"><p>'+esc(s.about.bio)+'</p>'+achievementsHTML+'</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="about-mark reveal"><img src="'+esc(s.brand.logoDataUrl)+'" alt="'+esc(s.brand.name)+' mark"></div>' +
+        '</div>' +
+        testimonialsHTML(s, false) +
+      '</div></section>'
+    );
+  }
+
+  function servicesPageHTML(s){
+    var servicesHTML = s.services.map(function(row,i){ return serviceRowHTML(row,i,false); }).join('');
+    return (
+      '<section class="page-section" id="services"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">Services</span></div>' +
+        '<div class="reveal">'+servicesHTML+'</div>' +
+      '</div></section>'
+    );
+  }
+
+  function contactPageHTML(s){
+    return '<div class="contact-page">' + colophonHTML(s, false) + '</div>';
+  }
+
+  function getRoute(){
+    var h = window.location.hash || '';
+    var m = /^#project=(.+)$/.exec(h);
+    if(m) return { type:'project', id: decodeURIComponent(m[1]) };
+    var name = h.replace(/^#/, '') || 'home';
+    if(name === 'branding'){ activeFilter = 'Brand design'; name = 'work'; }
+    var valid = ['home','work','about','services','contact'];
+    if(valid.indexOf(name) === -1) name = 'home';
+    return { type:'page', name:name };
+  }
+
+  function pageShellHTML(routeName){
+    var s = state;
+    var content;
+    if(routeName === 'work') content = workPageHTML(s, activeFilter);
+    else if(routeName === 'about') content = aboutPageHTML(s);
+    else if(routeName === 'services') content = servicesPageHTML(s);
+    else if(routeName === 'contact') content = contactPageHTML(s);
+    else content = homePageHTML(s);
+    return (
+      sidebarHTML(routeName) +
+      '<main class="page-main">' + content + '</main>' +
+      '<div class="toast" id="toast"></div>'
+    );
+  }
+
+  function serviceRowHTML(s, i, editing){
+    var idx = String(i+1).padStart(2,'0');
+    return (
+      '<div class="service-row" data-id="'+esc(s.id||genId())+'">' +
+        '<div class="service-idx">'+idx+'</div>' +
+        '<div>' +
+          '<h3'+ce(editing)+' data-role="title">'+esc(s.title)+'</h3>' +
+          '<div class="desc-cell"'+ce(editing)+' data-role="desc">'+esc(s.desc)+'</div>' +
+        '</div>' +
+        (editing ? '<button type="button" class="row-remove" data-action="remove-service">Remove</button>' : '<span></span>') +
+      '</div>'
+    );
+  }
+
+  function testimonialRowHTML(t, editing){
+    return (
+      '<div class="testimonial-row" data-id="'+esc(t.id||genId())+'">' +
+        '<p class="testimonial-quote"'+ce(editing)+' data-role="t-quote">'+esc(t.quote)+'</p>' +
+        '<div class="testimonial-foot">' +
+          '<span class="testimonial-name"'+ce(editing)+' data-role="t-name">'+esc(t.name)+'</span>' +
+          '<span class="testimonial-role"'+ce(editing)+' data-role="t-role">'+esc(t.role)+'</span>' +
+        '</div>' +
+        (editing ? '<button type="button" class="row-remove" data-action="remove-testimonial">Remove</button>' : '') +
+      '</div>'
+    );
+  }
+
+  function testimonialsHTML(s, editing){
+    var list = s.testimonials || [];
+    if(!editing && !list.length) return '';
+    var rowsHTML = list.map(function(t){ return testimonialRowHTML(t, editing); }).join('');
+    return (
+      '<div class="testimonials">' +
+        '<span class="testimonials-head">What clients say</span>' +
+        '<div class="testimonials-grid" data-role="testimonials-list">'+rowsHTML+'</div>' +
+        (editing ? '<button type="button" class="add-row" data-action="add-testimonial">+ Add testimonial</button>' : '') +
+      '</div>'
+    );
+  }
+
+  function bodyHTML(state, editing, activeFilter){
+    var s = state;
+    var filter = activeFilter || 'All';
+    var chipsHTML = filterChipsHTML(s.projects, filter);
+    var cardsHTML = s.projects.map(function(p,i){
+      var card = projectCardHTML(p,i,editing);
+      if(filter !== 'All' && p.group !== filter){
+        card = card.replace('class="work-card reveal"', 'class="work-card reveal" hidden');
+      }
+      return card;
+    }).join('');
+    var addPanel = editing ? '<div class="add-panel-row"><button type="button" class="add-panel" data-action="add-project">+ Add project</button></div>' : '';
+
+    var servicesHTML = s.services.map(function(row,i){ return serviceRowHTML(row,i,editing); }).join('');
+
+    var achievementsHTML = editing
+      ? '<div><span class="field-label">Achievements</span><div class="field-edit" contenteditable="true" data-role="achievements">'+esc(s.about.achievementsText||'')+'</div></div>'
+      : (s.about.achievementsText ? ('<span class="achievements-head">Achievements</span><p class="achievements-text reveal">'+esc(s.about.achievementsText)+'</p>') : '');
+
+    var editBar = editing
+      ? (
+        '<div class="edit-bar"><div class="wrap edit-bar-inner">' +
+          '<span class="msg" id="edit-msg">Editing — changes go live for every visitor once sent to press.</span>' +
+          '<span class="actions">' +
+            '<button type="button" class="btn btn-ghost" data-action="cancel">Discard</button>' +
+            '<button type="button" class="btn btn-primary" id="save-btn" data-action="save">Send to press &rarr;</button>' +
+          '</span>' +
+        '</div></div>'
+      )
+      : '';
+
+    return (
+      sidebarHTML('') +
+      '<main class="page-main">' +
+
+      '<header class="hero hero-tomato hero-page" id="top">' +
+        '<div class="hero-tomato-bg">' + heroBgHTML(s, false) + '</div>' +
+        '<div class="hero-tomato-veil"></div>' +
+        '<div class="hero-tomato-content wrap">' +
+          '<div class="hero-tomato-top">' +
+            '<span class="eyebrow">Graphic designer and consultant</span>' +
+            '<h1 class="display hero-tomato-h1"'+ce(editing)+' data-role="headline">'+esc(s.hero.headline)+'</h1>' +
+            '<nav class="hero-categories">' + heroCategoriesHTML(s.projects) + '</nav>' +
+          '</div>' +
+          '<div class="hero-tomato-bottom">' +
+            '<div class="hero-tomato-bottom-left">' +
+              '<p class="hero-tomato-sub"'+ce(editing)+' data-role="sub">'+esc(s.hero.sub)+'</p>' +
+              testimonialSliderHTML(s, heroTestiIndex) +
+            '</div>' +
+            '<a class="hero-cta" href="#work">See the work &rarr;</a>' +
+          '</div>' +
+        '</div>' +
+      '</header>' +
+
+      '<section id="work"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">Selected work</span><h2 class="display">A few real projects</h2></div>' +
+        chipsHTML +
+        '<div class="work-grid">' + cardsHTML + addPanel + '</div>' +
+      '</div></section>' +
+
+      brandingHTML() +
+
+      '<section id="about"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">About</span></div>' +
+        '<div class="about-layout">' +
+          '<div class="about-content">' +
+            '<p class="about-quote reveal"'+ce(editing)+' data-role="quote">'+esc(s.about.quote)+'</p>' +
+            '<div class="about-body">' +
+              '<div class="bio reveal"><p'+ce(editing)+' data-role="bio">'+esc(s.about.bio)+'</p>'+achievementsHTML+'</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="about-mark reveal"><img src="'+esc(s.brand.logoDataUrl)+'" alt="'+esc(s.brand.name)+' mark"></div>' +
+        '</div>' +
+        testimonialsHTML(s, editing) +
+      '</div></section>' +
+
+      '<section id="services"><div class="wrap">' +
+        '<div class="section-head reveal"><span class="eyebrow">Services</span></div>' +
+        '<div class="reveal" data-role="services-list">'+servicesHTML+'</div>' +
+        (editing ? '<button type="button" class="add-row" data-action="add-service">+ Add service</button>' : '') +
+      '</div></section>' +
+
+      colophonHTML(s, editing) +
+
+      editBar +
+      '</main>' +
+      '<div class="toast" id="toast"></div>'
+    );
+  }
+
+  function fullDocumentString(state){
+    return '<!doctype html>\n<html lang="en">\n<head>\n' + HEAD_HTML + '\n</head>\n<body>\n<div id="app">' +
+      bodyHTML(state, false, 'All') + '</div>\n<script>' + SELF_SRC + '<' + '/script>\n</body>\n</html>';
+  }
+
+  var editModeAllowed = true; // always show 'Edit site' — this is the owner's private working link
+
+  var state = DEFAULT_STATE;
+  var heroTestiIndex = 0;
+  var editing = false;
+  var canWrite = true;
+  var activeFilter = 'All';
+  var io = null;
+
+  function setupReveal(){
+    var items = document.querySelectorAll('.reveal:not(.in)');
+    if(!('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    if(io) io.disconnect();
+    io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.1, rootMargin:'0px 0px -6% 0px' });
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  function setupGallery(){
+    var gal = document.querySelector('.detail-gallery');
+    if(!gal) return;
+    var counter = document.querySelector('[data-role="gallery-counter"]');
+    var total = gal.querySelectorAll('.detail-slide').length;
+    if(!counter || total < 2) return;
+    function update(){
+      var idx = Math.round(gal.scrollLeft / Math.max(1, gal.clientWidth));
+      idx = Math.max(0, Math.min(total - 1, idx));
+      counter.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    }
+    gal.addEventListener('scroll', function(){
+      clearTimeout(gal._scrollT);
+      gal._scrollT = setTimeout(update, 90);
+    });
+    update();
+  }
+
+  function setupThumbDrag(){
+    var rows = document.querySelectorAll('.tomato-thumbs');
+    rows.forEach(function(row){
+      if(row._dragBound) return;
+      row._dragBound = true;
+      var isDown = false, startX = 0, startScroll = 0, moved = false;
+      function onMove(e){
+        if(!isDown) return;
+        var dx = e.clientX - startX;
+        if(Math.abs(dx) > 3) moved = true;
+        row.scrollLeft = startScroll - dx;
+      }
+      function onUp(){
+        if(!isDown) return;
+        isDown = false;
+        row.classList.remove('dragging');
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        if(moved){
+          var suppress = function(ev){ ev.preventDefault(); ev.stopPropagation(); row.removeEventListener('click', suppress, true); };
+          row.addEventListener('click', suppress, true);
+        }
+      }
+      row.addEventListener('pointerdown', function(e){
+        if(e.pointerType === 'touch') return;
+        isDown = true; moved = false;
+        startX = e.clientX; startScroll = row.scrollLeft;
+        row.classList.add('dragging');
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      });
+    });
+  }
+
+  function render(){
+    var app = document.getElementById('app');
+
+    if(editing){
+      app.innerHTML = bodyHTML(state, true, activeFilter);
+      setupReveal();
+      setupGallery();
+      setupThumbDrag();
+      return;
+    }
+
+    var route = getRoute();
+    if(route.type === 'project'){
+      var proj = (state.projects||[]).filter(function(pp){ return pp.id === route.id; })[0];
+      if(proj){
+        app.innerHTML = projectDetailHTML(state, proj);
+        window.scrollTo(0,0);
+        setupReveal();
+        setupGallery();
+        setupThumbDrag();
+        return;
+      }
+      history.replaceState(null, '', window.location.pathname + window.location.search + '#work');
+      route = { type:'page', name:'work' };
+    }
+
+    app.innerHTML = pageShellHTML(route.name);
+    window.scrollTo(0,0);
+    setupReveal();
+    setupGallery();
+    setupThumbDrag();
+  }
+
+  function showToast(msg, ms){
+    var t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function(){ t.classList.remove('show'); }, ms || 3200);
+  }
+
+  function extractState(){
+    var app = document.getElementById('app');
+    var get = function(role){ var el = app.querySelector('[data-role="'+role+'"]'); return el ? el.innerText.trim() : ''; };
+
+    var achievementsText = get('achievements');
+
+    var projects = Array.prototype.map.call(app.querySelectorAll('.work-card'), function(item){
+      var tagsRaw = ((item.querySelector('[data-role="tags"]') || {}).innerText || '').trim();
+      var tags = tagsRaw ? tagsRaw.split(',').map(function(x){ return x.trim(); }).filter(Boolean) : (function(){
+        var chips = item.querySelectorAll('.work-tag');
+        return Array.prototype.map.call(chips, function(c){ return c.innerText.trim(); }).filter(Boolean);
+      })();
+      return {
+        id: item.getAttribute('data-id') || genId(),
+        image: item.getAttribute('data-image') || '',
+        pos: item.getAttribute('data-pos') || 'center center',
+        group: item.getAttribute('data-group') || '',
+        title: ((item.querySelector('[data-role="title"]') || {}).innerText || '').trim(),
+        meta: ((item.querySelector('[data-role="meta"]') || {}).innerText || '').trim(),
+        desc: ((item.querySelector('[data-role="desc"]') || {}).innerText || '').trim(),
+        tags: tags
+      };
+    });
+
+    var services = Array.prototype.map.call(app.querySelectorAll('[data-role="services-list"] .service-row'), function(row){
+      return {
+        id: row.getAttribute('data-id') || genId(),
+        title: ((row.querySelector('[data-role="title"]') || {}).innerText || '').trim(),
+        desc: ((row.querySelector('[data-role="desc"]') || {}).innerText || '').trim()
+      };
+    });
+
+    var testimonials = Array.prototype.map.call(app.querySelectorAll('[data-role="testimonials-list"] .testimonial-row'), function(row){
+      return {
+        id: row.getAttribute('data-id') || genId(),
+        quote: ((row.querySelector('[data-role="t-quote"]') || {}).innerText || '').trim(),
+        name: ((row.querySelector('[data-role="t-name"]') || {}).innerText || '').trim(),
+        role: ((row.querySelector('[data-role="t-role"]') || {}).innerText || '').trim()
+      };
+    });
+
+    return {
+      brand: { name: state.brand.name, short: state.brand.short, logoDataUrl: state.brand.logoDataUrl },
+      hero: { headline: get('headline'), sub: get('sub'), regions: get('regions') },
+      heroVisual: { image: state.heroVisual.image, video: state.heroVisual.video, videoPoster: state.heroVisual.videoPoster, slideshow: state.heroVisual.slideshow },
+      about: { quote: get('quote'), bio: get('bio'), achievementsText: achievementsText },
+      services: services,
+      testimonials: testimonials,
+      projects: projects,
+      contact: {
+        email: get('email'),
+        location: get('location'),
+        instagram: get('instagram'),
+        availability: get('availability')
+      }
+    };
+  }
+
+  function enterEdit(){
+    if(!editModeAllowed) return;
+    editing = true;
+    render();
+  }
+  function cancelEdit(){ editing = false; render(); showToast('Changes discarded.'); }
+
+  function saveEdit(){
+    var newState = extractState();
+    if(!newState.hero.headline || !newState.brand.short){
+      showToast('Headline can’t be empty.');
+      return;
+    }
+    var btn = document.getElementById('save-btn');
+    var msg = document.getElementById('edit-msg');
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+    if(msg){ msg.textContent = 'Publishing your changes…'; }
+
+    if(!(window.claude && typeof window.claude.use === 'function')){
+      showToast('Editing isn’t available in this preview. Open the published page to edit.');
+      if(btn){ btn.disabled = false; btn.textContent = 'Send to press →'; }
+      if(msg){ msg.textContent = 'Editing — changes go live for every visitor once sent to press.'; }
+      return;
+    }
+
+    window.claude.use('artifact').then(function(artifact){
+      if(!artifact){ throw { code:'capability_disabled', message:'Editing capability unavailable here.' }; }
+      var html = fullDocumentString(newState);
+      return artifact.publish(html);
+    }).then(function(){
+      state = newState;
+      editing = false;
+      render();
+      showToast('Saved and published.');
+    }).catch(function(err){
+      var code = err && err.code;
+      if(code === 'not_writer' || code === 'not_granted' || code === 'consent_required'){
+        canWrite = false;
+        showToast('You’re viewing a read-only copy of this page.');
+        editing = false;
+        render();
+        return;
+      }
+      if(code === 'conflict'){
+        showToast('This page changed elsewhere — refreshing with the latest version…');
+        return;
+      }
+      if(code === 'too_large'){
+        showToast('That’s too much content to save at once — try trimming it down.');
+      } else {
+        showToast('Couldn’t save right now. Please try again in a moment.');
+      }
+      if(btn){ btn.disabled = false; btn.textContent = 'Send to press →'; }
+      if(msg){ msg.textContent = 'Editing — changes go live for every visitor once sent to press.'; }
+    });
+  }
+
+  document.addEventListener('submit', function(e){
+    var form = e.target.closest('#enquiry-form');
+    if(!form) return;
+    e.preventDefault();
+    var name = (form.querySelector('[name="name"]').value || '').trim();
+    var fromEmail = (form.querySelector('[name="email"]').value || '').trim();
+    var type = form.querySelector('[name="type"]').value;
+    var message = (form.querySelector('[name="message"]').value || '').trim();
+    if(!name || !fromEmail || !message){
+      showToast('Please fill in your name, email and a short message.');
+      return;
+    }
+    var to = (state.contact && state.contact.email) || 'dave@dld.net.au';
+    var subject = 'Project enquiry — ' + type + ' (' + name + ')';
+    var body = 'Name: ' + name + '\nEmail: ' + fromEmail + '\nProject type: ' + type + '\n\n' + message;
+    window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    showToast('Opening your email app to send this enquiry…');
+  });
+
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('[data-action]');
+    if(!el) return;
+    var action = el.getAttribute('data-action');
+
+    if(action === 'enter-edit'){ if(canWrite) enterEdit(); else showToast('This page is read-only for you.'); }
+    else if(action === 'cancel'){ cancelEdit(); }
+    else if(action === 'save'){ saveEdit(); }
+
+    else if(action === 'filter'){
+      activeFilter = el.getAttribute('data-group') || 'All';
+      render();
+    }
+
+    else if(action === 'back-to-work'){
+      window.location.hash = 'work';
+    }
+
+    else if(action === 'gallery-prev' || action === 'gallery-next'){
+      var gal = document.querySelector('.detail-gallery');
+      if(gal){
+        var dir = action === 'gallery-next' ? 1 : -1;
+        gal.scrollBy({ left: dir * gal.clientWidth, behavior: 'smooth' });
+      }
+    }
+
+    else if(action === 'testi-prev' || action === 'testi-next'){
+      var tWrap = document.querySelector('[data-role="hero-testimonial"]');
+      var tList = state.testimonials || [];
+      if(tWrap && tList.length){
+        var tCur = parseInt(tWrap.getAttribute('data-index'), 10) || 0;
+        var tDir = action === 'testi-next' ? 1 : -1;
+        heroTestiIndex = ((tCur + tDir) % tList.length + tList.length) % tList.length;
+        tWrap.outerHTML = testimonialSliderHTML(state, heroTestiIndex);
+      }
+    }
+
+    else if(action === 'testi-expand'){
+      var body = el.closest('.hero-testimonial-body');
+      var q = body ? body.querySelector('[data-role="hero-testi-quote"]') : null;
+      if(q){
+        var isExpanded = q.classList.toggle('testi-expanded');
+        q.classList.toggle('testi-clamped', !isExpanded);
+        el.classList.toggle('is-expanded', isExpanded);
+        el.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        el.textContent = isExpanded ? '−' : '+';
+      }
+    }
+
+    else if(action === 'thumbs-prev' || action === 'thumbs-next'){
+      var rowWrap = el.closest('.tomato-row');
+      var thumbs = rowWrap ? rowWrap.querySelector('.tomato-thumbs') : null;
+      if(thumbs){
+        var tdir = action === 'thumbs-next' ? 1 : -1;
+        thumbs.scrollBy({ left: tdir * thumbs.clientWidth * 0.8, behavior: 'smooth' });
+      }
+    }
+
+    else if(action === 'home-filter'){
+      activeFilter = el.getAttribute('data-group') || 'All';
+      window.location.hash = 'work';
+    }
+
+    else if(action === 'toggle-menu'){
+      var menu = document.getElementById('side-menu');
+      if(menu) menu.classList.toggle('open');
+    }
+
+    else if(action === 'nav-link'){
+      var openMenu = document.getElementById('side-menu');
+      if(openMenu) openMenu.classList.remove('open');
+    }
+
+    else if(action === 'add-project'){
+      var count = document.querySelectorAll('.work-card').length;
+      var newProject = {
+        id: genId(), title:'New project', meta:'Client — Year',
+        desc:'Short description of the work — replace with real detail.',
+        tags:['Category'], group:'', image:'', pos:'center center'
+      };
+      var addRow = document.querySelector('.add-panel-row');
+      var html = projectCardHTML(newProject, count, true);
+      if(addRow){ addRow.insertAdjacentHTML('beforebegin', html); }
+      setupReveal();
+    }
+    else if(action === 'remove-project'){
+      var allItems = document.querySelectorAll('.work-card');
+      if(allItems.length <= 1){ showToast('Keep at least one project.'); return; }
+      var item = e.target.closest('.work-card');
+      if(item) item.remove();
+    }
+
+    else if(action === 'add-service'){
+      var list = document.querySelector('[data-role="services-list"]');
+      var count2 = list.querySelectorAll('.service-row').length;
+      var newRow = { id: genId(), title:'New service', desc:'Short description of this service.' };
+      list.insertAdjacentHTML('beforeend', serviceRowHTML(newRow, count2, true));
+    }
+    else if(action === 'remove-service'){
+      var rows = document.querySelectorAll('[data-role="services-list"] .service-row');
+      if(rows.length <= 1){ showToast('Keep at least one service.'); return; }
+      var row = e.target.closest('.service-row');
+      if(row) row.remove();
+    }
+
+    else if(action === 'add-testimonial'){
+      var tList = document.querySelector('[data-role="testimonials-list"]');
+      var newTestimonial = { id: genId(), quote:'What this client said about working with David.', name:'Client name', role:'Role, Organisation' };
+      tList.insertAdjacentHTML('beforeend', testimonialRowHTML(newTestimonial, true));
+    }
+    else if(action === 'remove-testimonial'){
+      var tRow = e.target.closest('.testimonial-row');
+      if(tRow) tRow.remove();
+    }
+  });
+
+  window.addEventListener('hashchange', function(){ if(!editing) render(); });
+
+  render();
+})();
+</script>
+</body>
+</html>
